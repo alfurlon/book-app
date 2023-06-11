@@ -212,7 +212,10 @@ exports.deleteBook = async (req, res, next) => {
               });
         }
     } catch (err) {
-
+        res.status(500).json({
+            status: 'failed',
+            error: err.message || err
+        })
     }
 }
 
