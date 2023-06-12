@@ -1,85 +1,65 @@
 const Book = require('./../models/bookModel');
 const Author = require('./../models/authorModel');
+const AppError = require('./../util/appError');
+const catchAsync = require('./../util/catchAsync');
+
+exports.getAllBooks = catchAsync(async (req, res, next) => {
+    const books = await Book.find({});
+    const authors = await Author.find({});
+
+    // replace book.author with the author
+    books.forEach((book) => {
+        const author = authors.find((author) => author.id.toString() === book.author.toString());
+        book.author = author;
+    })
+
+    res.status(200).json({
+        status: 'success',
+        result: {
+            books
+        }
+    })
+})
+
+exports.getBookById = catchAsync(async (req, res, next) => {
+    const book = await Book.findById(req.params.id);
 
 
-exports.getAllBooks = async (req, res, next) => {
-    try {
-        const books = await Book.find({});
-        const authors = await Author.find({});
+    if (!book) {
+        return next(new AppError('No book found', 404));
+    } else {
 
-        // replace book.author with the author
-        books.forEach((book) => {
-            const author = authors.find((author) => author.id.toString() === book.author.toString());
-            book.author = author;
-        })
+        // Get Author for book
+        const author = await Author.findById(book.author);
 
-        res.status(200).json({
-            status: 'success',
-            result: {
-                books
-            }
-        })
-
-    } catch (err) {
-        res.status(500).json({
-            status: 'failed',
-            error: err.message
-        })
-    }
-}
-
-exports.getBookById = async (req, res, next) => {
-    try {
-        const book = await Book.findById(req.params.id);
-
-
-        if (!book) {
-            res.status(404).json({
-                status: 'failed',
-                message: 'Book not found'
-            })
-        } else {
-
-            // Get Author for book
-            const author = await Author.findById(book.author);
-
-            // This should never happen as creating a book
-            // requires an author and there is no way to
-            // delete an author.
-            if (!author) {
-                res.status(200).json({
-                    status: 'success',
-                    result: {
-                        book,
-                        message: "No Author found"
-                    }
-                })
-            }
-
-            // Change the author value in the book object
-            // to the actual author object
-            book.author = author;
+        // This should never happen as creating a book
+        // requires an author and there is no way to
+        // delete an author.
+        if (!author) {
             res.status(200).json({
                 status: 'success',
                 result: {
                     book,
-                    message: ""
+                    message: "No Author found"
                 }
             })
-
         }
 
-    } catch (err) {
-        res.status(500).json({
-            status: 'failed',
-            error: err.message
+        // Change the author value in the book object
+        // to the actual author object
+        book.author = author;
+        res.status(200).json({
+            status: 'success',
+            result: {
+                book,
+                message: ""
+            }
         })
+
     }
-}
+})
 
-exports.createBook = async (req, res, next) => {
-    try {
-
+exports.createBook = catchAsync(async (req, res, next) => {
         // I don't know if this will work with real forms
         // This works with insomnia multipart forms
         const author = {
@@ -133,17 +113,9 @@ exports.createBook = async (req, res, next) => {
                 newAuthor
             }
         })
-
-    } catch (err) {
-        res.status(500).json({
-            status: 'Failed',
-            errorMessage: err.message
-        })
-    }
-}
+})
 
 exports.updateBook = async (req, res, next) => {
-    try {
         // Check if the photo is being updated
         // If so get the url for it
         // const photo = req.files.photo;
@@ -175,10 +147,7 @@ exports.updateBook = async (req, res, next) => {
         })
 
         if (!updatedBook) {
-            res.status(404).json({
-                status: 'Failed',
-                message: 'Could not find book'
-            })
+            return next(new AppError('No book found', 404));
         } else {
             res.status(200).json({
                 status: 'success',
@@ -187,35 +156,19 @@ exports.updateBook = async (req, res, next) => {
                 }
             })
         }
-
-    } catch (err) {
-        res.status(500).json({
-            status: 'Failed',
-            error: err.message
-        })
-    }
 }
 
 exports.deleteBook = async (req, res, next) => {
-    try {
-        const book = await Book.findByIdAndDelete(req.params.id);
+    // !! Should try to see if I can delete the photo from cloudinary from here
+    const book = await Book.findByIdAndDelete(req.params.id);
 
-        if (!book) {
-            res.status(404).json({
-                statu: 'Failed',
-                message: 'Could not find book'
-            })
-        } else {
-            res.status(204).json({
-                status: 'success',
-                data: null
-              });
-        }
-    } catch (err) {
-        res.status(500).json({
-            status: 'failed',
-            error: err.message || err
-        })
+    if (!book) {
+        return next(new AppError('No book found', 404));
+    } else {
+        res.status(204).json({
+            status: 'success',
+            data: null
+          });
     }
 }
 
