@@ -2,6 +2,7 @@ const express = require('express');
 const AppError = require('./util/appError')
 const globalErrorHandler = require('./controllers/errorController')
 const bookRouter = require('./routes/bookRouter');
+const userRouter = require('./routes/userRouter')
 const app = express();
 
 // Middleware to parse JSON request bodies
@@ -13,6 +14,7 @@ app.use(express.json());
 // })
 
 app.use('/api/v1/books', bookRouter);
+app.use('/api/v1/users', userRouter)
 
 app.get('/', (req, res) => {
     res.send('Welcome')

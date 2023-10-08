@@ -60,8 +60,8 @@ exports.getBookById = catchAsync(async (req, res, next) => {
 })
 
 exports.createBook = catchAsync(async (req, res, next) => {
-        // I don't know if this will work with real forms
-        // This works with insomnia multipart forms
+        // !! I don't know if this will work with real forms
+        // !! This works with insomnia multipart forms
         const author = {
             firstName: req.body['author.firstName'],
             lastName: req.body['author.lastName']
@@ -90,6 +90,8 @@ exports.createBook = catchAsync(async (req, res, next) => {
             authorId = newAuthor._id;
         }
 
+        req.body = sanitizeData(req.body)
+        
         // Create and save new book
         const book = new Book({
             title: req.body.title,
@@ -127,6 +129,8 @@ exports.updateBook = async (req, res, next) => {
 
         // Check if updating the author
         // Skip this for now
+
+        req.body = sanitizeData(req.body)
 
         // Update the book
         const book = new Book({
@@ -170,6 +174,30 @@ exports.deleteBook = async (req, res, next) => {
             data: null
           });
     }
+}
+
+/*
+    data: The req.body object
+*/
+function sanitizeData(data) {
+    const acceptableGenres = ['fantasy', 'science fiction', 'dystopian',
+    'adventure', 'romance', 'mystery', 'horror', 'thriller', 'lgbtq', 'historical fiction',
+    'young adult', 'childrens fiction', 'memoir', 'autobiography', 'biography', 'cooking',
+    'art', 'photography', 'self-help', 'health', 'history', 'hobby', 'relationships', 'humor',
+    'business', 'law', 'politics', 'philosophy', 'religion', 'education', 'travel', 'true crime']
+
+    // genre: Check for acceptable genres and capitalize them
+    if (data.genre) {
+        data.genre = data.genre.filter(genre => acceptableGenres.includes(genre.toLowerCase()))
+        data.genre = data.genre.map(genre => genre.charAt(0).toUpperCase() + genre.slice(1))
+    }
+
+    // haveRead: data.haveRead; convert from string to boolean. throw error if it can't work
+    if (data.haveRead) {
+        data.haveRead = data.haveRead === 'true' ? true : false
+    }
+
+    return data
 }
 
 // !! Create some custom aggregate routes
