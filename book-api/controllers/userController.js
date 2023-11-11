@@ -17,7 +17,7 @@ exports.getUserById = catchAsync(async (req, res, next) => {
     const user = await User.findById(req.params.id);
 
     if (!user) {
-        return next(new AppError('No book found', 404));
+        return next(new AppError('No user found', 404));
     } else {
         res.status(200).json({
             status: 'success',
@@ -26,4 +26,24 @@ exports.getUserById = catchAsync(async (req, res, next) => {
             }
         })
     }
+})
+
+exports.deleteUser = catchAsync(async (req, res, body) => {
+    await User.findByIdAndUpdate(req.user.id, { active: false })
+    res.status(204).json({
+        status: 'success',
+        result: null
+    })
+})
+
+// This is an admin route allowing them to delete a user via REST
+exports.adminDeleteUser = catchAsync(async (req, res, body) => {
+    await User.findByIdAndUpdate(req.params.id, { active: false })
+    res.status(204).json({
+        status: 'success',
+        result: {
+            message: 'User marked as inactive',
+            userId: req.params.id
+        }
+    })
 })

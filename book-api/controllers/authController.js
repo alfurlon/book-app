@@ -76,10 +76,11 @@ exports.protect = catchAsync(async (req, res, next) => {
         return next(new AppError('That user does not exist', 401));
     }
 
+    // console.log(`Fresh User: ${JSON.stringify(freshUser, null, 2)}`)
     // 4. Check if user changed passwords after the token was issued
-    if (freshUser.changedPasswordAfter(decoded.iat)) {
-        return next(new AppError('Password was recently changed. Please login again', 401));
-    }
+    // if (freshUser.changedPasswordAfter(decoded.iat)) {
+    //     return next(new AppError('Password was recently changed. Please login again', 401));
+    // }
 
     // Grant access to route
     req.user = freshUser;
@@ -88,7 +89,6 @@ exports.protect = catchAsync(async (req, res, next) => {
 })
 
 // Allows to take arguments in restrict function
-// Currently not being used
 exports.restrict = (...roles) => {
     return (req, res, next) => {
         // this req.user comes from the protect middleware
@@ -96,7 +96,7 @@ exports.restrict = (...roles) => {
         if (!roles.includes(req.user.role)) {
             return next(new AppError('You do not have permission to perform this action', 403));
         }
-    }
 
-    next();
+        next();
+    }
 }
