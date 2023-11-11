@@ -2,19 +2,20 @@ const express = require('express');
 // const multerMiddleware = require('./../middleware/multerMiddleware');
 const { uploadCloudinary } = require('./../middleware/multerCloudinaryMiddleware');
 const bookController = require('./../controllers/bookController');
+const authController = require('../controllers/authController')
 const router = express.Router();
 
 // const uploadMiddleware = multerMiddleware();
 
 router
     .route('/')
-    .get(bookController.getAllBooks)
-    .post(uploadCloudinary.single('coverPhoto'), bookController.createBook)
+    .get(authController.protect, bookController.getAllBooks)
+    .post(authController.protect, uploadCloudinary.single('coverPhoto'), bookController.createBook)
 
 router
     .route('/:id')
-    .get(bookController.getBookById)
-    .patch(uploadCloudinary.single('coverPhoto'), bookController.updateBook)
-    .delete(bookController.deleteBook)
+    .get(authController.protect, bookController.getBookById)
+    .patch(authController.protect, uploadCloudinary.single('coverPhoto'), bookController.updateBook)
+    .delete(authController.protect, bookController.deleteBook)
 
 module.exports = router;

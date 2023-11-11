@@ -14,11 +14,11 @@ app.use(express.json());
 // })
 
 app.use('/api/v1/books', bookRouter);
-app.use('/api/v1/users', userRouter)
+app.use('/api/v1/users', userRouter);
 
-app.get('/', (req, res) => {
-    res.send('Welcome')
-})
+// app.get('/', (req, res) => {
+//     res.send('Welcome')
+// })
 
 app.all('*', (req, res, next) => {
     // If next receives any argument it will always assume its an error

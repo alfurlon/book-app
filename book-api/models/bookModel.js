@@ -6,7 +6,6 @@ const bookSchema = new mongoose.Schema({
     title: {
         type: String,
         required: [true, 'A book must have a title'],
-        // !! Regex validation for what title should be?
         unique: true
     },
     author: {
