@@ -22,6 +22,18 @@ exports.signup = catchAsync(async (req, res, next) => {
 
     const token = signToken(newUser._id)
 
+    // only do secure: true in production. It makes it for only HTTPS
+    res.cookie('jwt', token, {
+        expires: new Date(Date.now() + (process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000)),
+        //secure: true,
+        httpOnly: true
+    })
+
+    // Remove password, role, and active from output
+    newUser.password = undefined
+    newUser.role = undefined
+    newUser.active = undefined
+
     res.status(201).json({
         status: 'success',
         token,
@@ -48,6 +60,13 @@ exports.login = catchAsync(async (req, res, next) => {
 
     // 3. Send Token to client
     const token = signToken(user._id)
+
+    // only do secure: true in production. It makes it for only HTTPS
+    res.cookie('jwt', token, {
+        expires: new Date(Date.now() + (process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000)),
+        //secure: true,
+        httpOnly: true
+    })
 
     res.status(200).json({
         status: 'success',
