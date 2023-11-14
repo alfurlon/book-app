@@ -10,6 +10,6 @@ router.delete('/deleteUser/:id', authController.restrict('admin'), userControlle
 
 // Only Admin should be able to use these routes
 router.get('/', authController.protect, authController.restrict('admin'), userController.getAllUsers)
-router.get('/:id', authController.protect, authController.restrict('admin'), userController.getUserById)
+router.get('/:id', authController.protect, userController.getUserById)
 
 module.exports = router;

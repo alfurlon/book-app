@@ -44,6 +44,10 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: true,
         select: false
+    },
+    bookList: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Book'
     }
 })
 

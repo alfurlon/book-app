@@ -21,7 +21,8 @@ const bookSchema = new mongoose.Schema({
     },
     coverPhoto: {
         type: String,
-        required: [true, 'A book must have a photo']
+        // turning photo off for testing
+        // required: [true, 'A book must have a photo']
     },
     publishedDate: {
         type: Date

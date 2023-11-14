@@ -1,5 +1,6 @@
 const Book = require('./../models/bookModel');
 const Author = require('./../models/authorModel');
+const User = require('./../models/userModel');
 const AppError = require('./../util/appError');
 const catchAsync = require('./../util/catchAsync');
 
@@ -97,7 +98,7 @@ exports.createBook = catchAsync(async (req, res, next) => {
             title: req.body.title,
             author: authorId,
             summary: req.body.summary,
-            coverPhoto: req.file.path,
+            // coverPhoto: req.file.path,
             publishedDate: req.body.publishedDate,
             genre: req.body.genre,
             pages: req.body.pages,
@@ -107,12 +108,19 @@ exports.createBook = catchAsync(async (req, res, next) => {
 
         const newBook = await book.save();
 
+        // Add book to user creating the book
+        // The user signed in should be at req.user
+        req.user.bookList.push(newBook._id)
+        const updatedUser = await User.findByIdAndUpdate(req.user._id, req.user)
+
+
         // Send response with newly created book and author
         res.status(201).json({
             status: 'success',
             result: {
                 newBook,
-                newAuthor
+                newAuthor,
+                updatedUser
             }
         })
 })
