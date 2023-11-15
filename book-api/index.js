@@ -29,7 +29,7 @@ app.use(hpp())
 
 // Limits calls from one IP to 100 per hour (windowms)
 // Could be used to monetize API
-//!! Not turning on during production
+//!! Not turning on during development
 // const limiter = rateLimit({
 //     max: 100,
 //     windowMs: 60 * 60 * 1000,
