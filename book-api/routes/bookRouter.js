@@ -9,7 +9,8 @@ const router = express.Router();
 
 router
     .route('/')
-    .get(authController.protect, bookController.getAllBooks)
+    // .get(authController.protect, bookController.getAllBooks)
+    .get(bookController.getAllBooks)
     .post(authController.protect, uploadCloudinary.single('coverPhoto'), bookController.createBook)
 
 router

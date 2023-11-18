@@ -33,6 +33,7 @@ const bookSchema = new mongoose.Schema({
     pages: {
         type: Number
     },
+    // !! These need to move under the user as they are user specific
     haveRead: {
         type: Boolean
     },

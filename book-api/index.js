@@ -38,7 +38,7 @@ app.use(hpp())
 // app.use('/api', limiter)
 
 // app.use((req, res, next) => {
-//     console.log(req.body);
+//     console.log(req.body, req.url, req.method);
 //     next();
 // })
 

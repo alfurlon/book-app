@@ -1,5 +1,6 @@
 import { BsPlusSquareFill } from "react-icons/bs";
 import { FaBookOpen } from "react-icons/fa";
+import { FaHouseUser } from "react-icons/fa";
 import Link from 'next/link'
 
 export default function NavBar() {
@@ -12,8 +13,11 @@ export default function NavBar() {
                 <div className="mr-10">
                     <Link href="/book/form" className="hover:text-hover-text-color text-2xl"><BsPlusSquareFill /></Link>
                 </div>
-                <div>
+                <div className="mr-10">
                     <Link href="/book/gallery" className="hover:text-hover-text-color text-2xl"><FaBookOpen /></Link>
+                </div>
+                <div>
+                    <Link href="/login" className="hover:text-hover-text-color text-2xl"><FaHouseUser /></Link>
                 </div>
             </div>
         </div>
