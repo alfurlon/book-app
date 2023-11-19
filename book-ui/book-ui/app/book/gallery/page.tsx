@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import axiosInstance from "../../../lib/axios"
+import BookGalleryBook from "../../../components/BookGalleryBook"
 
 // const book = {
 //     _id: '',
@@ -31,9 +32,12 @@ export default function Home() {
     return (
       <main className="h-screen bg-none">
         <h1>Gallery</h1>
-        <ul>
+        <div className="grid grid-cols-4 gap-2 justify-items-center">
             {/* Need a books gallery page to load a map of books. And then also an individual book page */}
-        </ul>
+            {books.map(book => {
+              return <BookGalleryBook key={book._id} book={book} />
+            })}
+        </div>
       </main>
     )
   }
