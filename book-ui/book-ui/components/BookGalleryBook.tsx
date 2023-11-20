@@ -30,7 +30,8 @@ interface BookProps {
 export default function BookGalleryBook({ book }: BookProps) {
 
     return (
-        <div
+        <Link
+            href={`/book/${book.slug}`}
             className="mb-10 flex flex-col"
         >
             <Image
@@ -42,6 +43,6 @@ export default function BookGalleryBook({ book }: BookProps) {
             />
             <h2 className="text-xl text-center mb-2">{book.title}</h2>
             <p className="text-center">By {book.author.firstName} {book.author.lastName}</p>
-        </div>
+        </Link>
     )
 }
