@@ -60,6 +60,44 @@ exports.getBookById = catchAsync(async (req, res, next) => {
     }
 })
 
+exports.getBookBySlug = catchAsync(async (req, res, next) => {
+    const book = await Book.findOne({ slug: req.params.slug })
+
+
+    if (!book) {
+        return next(new AppError('No book found', 404));
+    } else {
+
+        // Get Author for book
+        const author = await Author.findById(book.author);
+
+        // This should never happen as creating a book
+        // requires an author and there is no way to
+        // delete an author.
+        if (!author) {
+            res.status(200).json({
+                status: 'success',
+                result: {
+                    book,
+                    message: "No Author found"
+                }
+            })
+        }
+
+        // Change the author value in the book object
+        // to the actual author object
+        book.author = author;
+        res.status(200).json({
+            status: 'success',
+            result: {
+                book,
+                message: ""
+            }
+        })
+
+    }
+})
+
 exports.createBook = catchAsync(async (req, res, next) => {
         // !! I don't know if this will work with real forms
         // !! This works with insomnia multipart forms

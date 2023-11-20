@@ -16,8 +16,10 @@ const bookSchema = new mongoose.Schema({
     summary: {
         type: String,
     },
+    // !! Get rid of slugs?
     slug: {
         type: String,
+        unique: true
     },
     coverPhoto: {
         type: String,

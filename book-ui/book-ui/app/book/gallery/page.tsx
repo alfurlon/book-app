@@ -3,25 +3,10 @@
 import { useState, useEffect } from "react"
 import axiosInstance from "../../../lib/axios"
 import BookGalleryBook from "../../../components/BookGalleryBook"
-
-// const book = {
-//     _id: '',
-//     title: '',
-//     author: {
-//         _id: '',
-//         firstName: '',
-//         lastName: '',
-//         __v: 0
-//     },
-//     summary: '',
-//     coverPhoto: '',
-//     slug: '',
-//     __v: 0,
-//     genre: []
-// }
+import { Book } from "@/types/Book"
 
 export default function Home() {
-    const [books, setBooks] = useState([])
+    const [books, setBooks] = useState<Book[]>([])
 
     useEffect(() => {
         axiosInstance.get('/books')

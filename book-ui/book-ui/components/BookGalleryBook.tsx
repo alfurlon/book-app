@@ -2,24 +2,7 @@ import Image from "next/image"
 import bookPhoto from "../public/imgs/sample-cover-photo.jpg"
 // import '../app/globals.css'
 import Link from "next/link";
-
-interface Author {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    __v: number;
-}
-
-interface Book {
-    _id: string;
-    title: string;
-    author: Author;
-    summary: string;
-    coverPhoto: string;
-    slug: string;
-    __v: number
-    genre: string[]
-}
+import { Book } from "@/types/Book";
 
 interface BookProps {
     book: Book;
