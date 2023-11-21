@@ -5,9 +5,9 @@ import Link from 'next/link'
 
 export default function NavBar() {
     return (
-        <div className="flex justify-between h-20 items-center">
+        <div className="flex justify-between h-20 items-center mb-10">
             <div className="ml-20">
-                <Link href="/" className="hover:text-hover-text-color"><h1 className="text-2xl font-bold">The Virtual Bookshelf</h1></Link>
+                <Link href="/" className="hover:text-hover-text-color"><h1 className="text-3xl font-bold">The Virtual Bookshelf</h1></Link>
             </div>
             <div className="flex justify-between items-center mr-20">
                 <div className="mr-10">

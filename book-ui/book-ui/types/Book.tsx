@@ -7,6 +7,7 @@ export interface Book {
     summary: string;
     coverPhoto: string;
     slug: string;
-    __v: number
-    genre: string[]
+    __v: number;
+    genre: string[];
+    pages: number;
 }
