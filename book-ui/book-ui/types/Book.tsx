@@ -10,4 +10,5 @@ export interface Book {
     __v: number;
     genre: string[];
     pages: number;
+    publishedDate: Date;
 }
