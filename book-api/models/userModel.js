@@ -48,6 +48,14 @@ const userSchema = new mongoose.Schema({
     bookList: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Book'
+    },
+    haveRead: {
+        type: Map,
+        of: Boolean
+    },
+    yearRead: {
+        type: Map,
+        of: Number
     }
 })
 

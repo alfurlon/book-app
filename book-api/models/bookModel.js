@@ -16,7 +16,6 @@ const bookSchema = new mongoose.Schema({
     summary: {
         type: String,
     },
-    // !! Get rid of slugs?
     slug: {
         type: String,
         unique: true
@@ -34,15 +33,6 @@ const bookSchema = new mongoose.Schema({
     },
     pages: {
         type: Number
-    },
-    // !! These need to move under the user as they are user specific
-    haveRead: {
-        type: Boolean
-    },
-    yearRead: {
-        type: Number,
-        min: [2000, 'The year must be after 2000'],
-        max: [new Date().getFullYear(), 'The year cannot be in the future.']
     }
 });
 

@@ -129,6 +129,8 @@ exports.createBook = catchAsync(async (req, res, next) => {
             authorId = newAuthor._id;
         }
 
+        // !! Edit the user object haveRead and yearRead
+
         req.body = sanitizeData(req.body)
         
         // Create and save new book
@@ -139,9 +141,7 @@ exports.createBook = catchAsync(async (req, res, next) => {
             // coverPhoto: req.file.path,
             publishedDate: req.body.publishedDate,
             genre: req.body.genre,
-            pages: req.body.pages,
-            haveRead: req.body.haveRead,
-            yearRead: req.body.yearRead
+            pages: req.body.pages
         });
 
         const newBook = await book.save();
@@ -176,6 +176,8 @@ exports.updateBook = async (req, res, next) => {
         // Check if updating the author
         // Skip this for now
 
+        // !! Edit the user object haveRead and yearRead
+
         req.body = sanitizeData(req.body)
 
         // Update the book
@@ -186,9 +188,7 @@ exports.updateBook = async (req, res, next) => {
             //coverPhoto: result.secure_url,
             publishedDate: req.body.publishedDate,
             genre: req.body.genre,
-            pages: req.body.pages,
-            haveRead: req.body.haveRead,
-            yearRead: req.body.yearRead
+            pages: req.body.pages
         });
 
         const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, {
@@ -242,6 +242,8 @@ function sanitizeData(data) {
     if (data.haveRead) {
         data.haveRead = data.haveRead === 'true' ? true : false
     }
+
+    // !! yearRead should not be in the future
 
     return data
 }

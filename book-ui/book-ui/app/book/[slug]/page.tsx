@@ -2,28 +2,10 @@
 
 import { useState, useEffect } from "react";
 import axiosInstance from "../../../lib/axios"
-import { Book } from "@/types/Book";
+import { Book, emptyBook } from "@/types/Book";
 import Image from "next/image";
 import bookPhoto from "../../../public/imgs/sample-cover-photo.jpg"
 import Link from "next/link";
-
-const emptyBook = {
-    _id: '',
-    title: '',
-    author: {
-        _id: '',
-        firstName: '',
-        lastName: '',
-        __v: 0
-    },
-    summary: '',
-    coverPhoto: '',
-    publishedDate: new Date(1993, 8, 27),
-    slug: '',
-    __v: 0,
-    genre: [],
-    pages: 0
-}
 
 export default function BookDetail({ params }: { params: { slug: string } }) {
 
@@ -53,7 +35,7 @@ export default function BookDetail({ params }: { params: { slug: string } }) {
                     height={800}
                     className="rounded-sm"
                  />
-                 <h3 className="mt-6 text-xl"><span className="font-medium">Published Date: </span>{book.publishedDate ? book.publishedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Edit to add'}</h3>
+                 <h3 className="mt-6 text-xl"><span className="font-medium">Published Date: </span>{book.publishedDate ? book.publishedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long' }) : 'Edit to add'}</h3>
                  <h3 className="mt-6 text-xl"><span className="font-medium">Pages: </span>{book.pages ? book.pages : 'Edit to add'}</h3>
             </div>
             <div className="w-full">
