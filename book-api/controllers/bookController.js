@@ -99,11 +99,15 @@ exports.getBookBySlug = catchAsync(async (req, res, next) => {
 })
 
 exports.createBook = catchAsync(async (req, res, next) => {
+    // console.log('MADE IT HERE')
+    // console.log(req.body)
+    // console.log(req.headers)
+    
         // !! I don't know if this will work with real forms
         // !! This works with insomnia multipart forms
         const author = {
-            firstName: req.body['author.firstName'],
-            lastName: req.body['author.lastName']
+            firstName: req.body.authorFirstName,
+            lastName: req.body.authorLastName
           };
         // !! Still need to test unhappy path
         // !! Maybe practice with Mocha
@@ -144,12 +148,15 @@ exports.createBook = catchAsync(async (req, res, next) => {
             pages: req.body.pages
         });
 
+        // !! Need to review this. It will save even with an error
+        // !! had an error just below this but it already saved the book
         const newBook = await book.save();
 
         // Add book to user creating the book
         // The user signed in should be at req.user
-        req.user.bookList.push(newBook._id)
-        const updatedUser = await User.findByIdAndUpdate(req.user._id, req.user)
+        // !! Turning off for right now. Need a way to better handle the error if there is no bookList
+        // req.user.bookList.push(newBook._id)
+        // const updatedUser = await User.findByIdAndUpdate(req.user._id, req.user)
 
 
         // Send response with newly created book and author
@@ -158,7 +165,7 @@ exports.createBook = catchAsync(async (req, res, next) => {
             result: {
                 newBook,
                 newAuthor,
-                updatedUser
+                // updatedUser
             }
         })
 })

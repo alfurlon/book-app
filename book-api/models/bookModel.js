@@ -28,6 +28,7 @@ const bookSchema = new mongoose.Schema({
     publishedDate: {
         type: Date
     },
+    // !! Change this back to a single genre for now
     genre: {
         type: [String]
     },

@@ -4,11 +4,16 @@ const helmet = require('helmet')
 const mongoSanitize = require('express-mongo-sanitize')
 const xss = require('xss-clean')
 const hpp = require('hpp')
+const cors = require('cors')
 const AppError = require('./util/appError')
 const globalErrorHandler = require('./controllers/errorController')
 const bookRouter = require('./routes/bookRouter')
 const userRouter = require('./routes/userRouter')
 const app = express()
+
+// Enable CORS for all routes
+// !! Update later
+app.use(cors())
 
 // Set security HTTP Headers
 // Put this at the beginning of middlewares

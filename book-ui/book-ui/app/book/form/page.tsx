@@ -7,8 +7,12 @@ import { Book, emptyBook } from "@/types/Book"
 import { Author, emptyAuthor } from "@/types/Author"
 import { User, emptyUser } from "@/types/User"
 import * as Yup from "yup"
+import { useRouter } from "next/navigation"
+import axios from "axios"
 
 export default function Home() {
+  const router = useRouter();
+
   // formik
   const formik = useFormik({
     initialValues: {
@@ -24,31 +28,55 @@ export default function Home() {
       authorLastName: ''
     },
     validationSchema: Yup.object({
-      
+      bookTitle: Yup.string().required("Must include a title"),
+      summary: Yup.string(),
+      pages: Yup.number(),
+      haveRead: Yup.boolean(),
+      yearRead: Yup.number(),
+      authorFirstName: Yup.string().required("Must include an author first name"),
+      authorLastName: Yup.string().required("Must include an author last name")
     }),
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2))
+      // alert(JSON.stringify(values.bookTitle, null, 2))
+      axios.post('http://localhost:3001/api/v1/books', {
+        title: values.bookTitle,
+        summary: values.summary,
+        pages: values.pages,
+        // haveRead: values.haveRead,
+        yearRead: values.yearRead,
+        authorFirstName: values.authorFirstName,
+        authorLastName: values.authorLastName
+      }, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(data => {
+        console.log(data)
+        router.push('/book/gallery')
+      })
+      .catch(err => console.log(err))
     }
   })
-
 
   return (
     <div className="h-screen bg-none flex justify-between">
       <div className="ml-40">
         {/* For the title of the page and the form */}
         <h1 className="text-3xl font-bold">Add a Book</h1>
-        <p className="mb-6">* indicates required</p>
-        <form onSubmit={formik.handleSubmit}>
+        <p className="mb-6 text-slate-400 font-extralight">* indicates required</p>
+        <form onSubmit={formik.handleSubmit} className="mb-20">
           <div className="mb-4">
             <label htmlFor="bookTitle" className="font-medium text-md block mb-2">Book Title*</label>
+            {formik.touched.bookTitle && formik.errors.bookTitle ? <p className="text-red-500">{formik.errors.bookTitle}</p> : ''}
             <input
               className="rounded-md"
               type="text"
               name="bookTitle"
-              required
               placeholder="Enter the title"
               value={formik.values.bookTitle}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
           </div>
           <div className="mb-4">
@@ -145,7 +173,8 @@ export default function Home() {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="coverPhoto" className="font-medium text-md block mb-2">Cover Photo</label>
+            <label htmlFor="coverPhoto" className="font-medium text-md block">Cover Photo</label>
+            <p className="mb-2 text-slate-400 font-extralight">Must be a jpg, jpeg, or png file</p>
             <input
               className="rounded-md"
               type="file"
@@ -156,24 +185,26 @@ export default function Home() {
             <h2 className="mb-2 text-xl font-semibold">Author Information</h2>
             <div className="mb-4">
               <label htmlFor="authorFirstName" className="font-medium text-md block mb-2">First Name*</label>
+              {formik.touched.authorFirstName && formik.errors.authorFirstName ? <p className="text-red-500">{formik.errors.authorFirstName}</p> : ''}
               <input
                 className="rounded-md"
                 type="text"
                 name="authorFirstName"
-                required
                 value={formik.values.authorFirstName}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
             </div>
             <div className="mb-4">
               <label htmlFor="authorLastName" className="font-medium text-md block mb-2">Last Name*</label>
+              {formik.touched.authorLastName && formik.errors.authorLastName ? <p className="text-red-500">{formik.errors.authorLastName}</p> : ''}
               <input
                 className="rounded-md"
                 type="text"
                 name="authorLastName"
-                required
                 value={formik.values.authorLastName}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
             </div>
           </div>
@@ -181,6 +212,7 @@ export default function Home() {
             <button type="submit" className="text-md font-medium text-white w-24 bg-blue-600 h-8 rounded-md">Submit</button>
           </div>
         </form>
+
       </div>
       <div className="h-screen">
         {/* For the image on one side of the screen */}
