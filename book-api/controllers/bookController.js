@@ -100,7 +100,8 @@ exports.getBookBySlug = catchAsync(async (req, res, next) => {
 
 exports.createBook = catchAsync(async (req, res, next) => {
     // console.log('MADE IT HERE')
-    // console.log(req.body)
+    console.log(req.body)
+    console.log(req.file)
     // console.log(req.headers)
 
         // !! I don't know if this will work with real forms
@@ -142,7 +143,7 @@ exports.createBook = catchAsync(async (req, res, next) => {
             title: req.body.title,
             author: authorId,
             summary: req.body.summary,
-            // coverPhoto: req.file.path,
+            coverPhoto: req.file.path,
             publishedDate: req.body.publishedDate,
             genre: req.body.genre,
             pages: req.body.pages

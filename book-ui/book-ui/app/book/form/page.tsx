@@ -9,6 +9,7 @@ import { User, emptyUser } from "@/types/User"
 import * as Yup from "yup"
 import { useRouter } from "next/navigation"
 import axios from "axios"
+import { useEffect } from "react"
 
 export default function Home() {
   const router = useRouter();
@@ -23,7 +24,7 @@ export default function Home() {
       pages: 0,
       haveRead: false,
       yearRead: 0,
-      // coverPhoto: ?,
+      coverPhoto: null,
       authorFirstName: '',
       authorLastName: ''
     },
@@ -34,21 +35,28 @@ export default function Home() {
       pages: Yup.number(),
       haveRead: Yup.boolean(),
       yearRead: Yup.number(),
+      coverPhoto: Yup.mixed().required("Must include a cover photo. Must be less than 100MB"),
       authorFirstName: Yup.string().required("Must include an author first name"),
       authorLastName: Yup.string().required("Must include an author last name")
     }),
     onSubmit: values => {
-      // alert(JSON.stringify(values.bookTitle, null, 2))
-      axios.post('http://localhost:3001/api/v1/books', {
-        title: values.bookTitle,
-        summary: values.summary,
-        genre: values.genre,
-        pages: values.pages,
-        // haveRead: values.haveRead,
-        yearRead: values.yearRead,
-        authorFirstName: values.authorFirstName,
-        authorLastName: values.authorLastName
-      }, {
+      const formData = new FormData()
+      formData.append('title', values.bookTitle)
+      formData.append('summary', values.summary)
+      formData.append('genre', values.genre)
+      formData.append('pages', values.pages.toString())
+      formData.append('yearRead', values.yearRead.toString())
+      console.log('coverPhoto: ', values.coverPhoto)
+      if (values.coverPhoto !== null) {
+        formData.append('coverPhoto', values.coverPhoto as Blob)
+      }
+      formData.append('authorFirstName', values.authorFirstName)
+      formData.append('authorLastName', values.authorLastName)
+
+      // alert(JSON.stringify(values.coverPhoto, null, 2))
+      // console.log('FormData: ', formData)
+
+      axios.post('http://localhost:3001/api/v1/books', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -61,13 +69,17 @@ export default function Home() {
     }
   })
 
+  // useEffect(() => {
+  //   console.log('formik.values.coverPhoto:', formik.values.coverPhoto);
+  // }, [formik.values.coverPhoto]);
+
   return (
     <div className="h-screen bg-none flex justify-between">
       <div className="ml-40">
         {/* For the title of the page and the form */}
         <h1 className="text-3xl font-bold">Add a Book</h1>
         <p className="mb-6 text-slate-400 font-extralight">* indicates required</p>
-        <form onSubmit={formik.handleSubmit} className="mb-20">
+        <form onSubmit={formik.handleSubmit} className="mb-20" encType="multipart/form-data">
           <div className="mb-4">
             <label htmlFor="bookTitle" className="font-medium text-md block mb-2">Book Title*</label>
             {formik.touched.bookTitle && formik.errors.bookTitle ? <p className="text-red-500">{formik.errors.bookTitle}</p> : ''}
@@ -177,10 +189,16 @@ export default function Home() {
           <div className="mb-4">
             <label htmlFor="coverPhoto" className="font-medium text-md block">Cover Photo</label>
             <p className="mb-2 text-slate-400 font-extralight">Must be a jpg, jpeg, or png file</p>
+            {formik.touched.coverPhoto && formik.errors.coverPhoto ? <p className="text-red-500">{formik.errors.coverPhoto}</p> : ''}
             <input
               className="rounded-md"
               type="file"
               name="coverPhoto"
+              onChange={(e) => {
+                // console.log(e.currentTarget.files[0])
+                formik.setFieldValue("coverPhoto", e.currentTarget.files[0])
+                // console.log(formik.values.coverPhoto)
+              }}
             />
           </div>
           <div className="mb-4">
