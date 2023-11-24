@@ -30,7 +30,7 @@ const bookSchema = new mongoose.Schema({
     },
     // !! Change this back to a single genre for now
     genre: {
-        type: [String]
+        type: String
     },
     pages: {
         type: Number

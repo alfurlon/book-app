@@ -19,17 +19,18 @@ export default function Home() {
       bookTitle: '',
       // publishedDate: new Date(),
       summary: '',
-      // genre: [],
+      genre: '',
       pages: 0,
       haveRead: false,
       yearRead: 0,
-      // coverPhoto: ?
+      // coverPhoto: ?,
       authorFirstName: '',
       authorLastName: ''
     },
     validationSchema: Yup.object({
       bookTitle: Yup.string().required("Must include a title"),
       summary: Yup.string(),
+      genre: Yup.string(),
       pages: Yup.number(),
       haveRead: Yup.boolean(),
       yearRead: Yup.number(),
@@ -41,6 +42,7 @@ export default function Home() {
       axios.post('http://localhost:3001/api/v1/books', {
         title: values.bookTitle,
         summary: values.summary,
+        genre: values.genre,
         pages: values.pages,
         // haveRead: values.haveRead,
         yearRead: values.yearRead,
@@ -105,41 +107,41 @@ export default function Home() {
             <select
               name="genre"
               className="rounded-md"
-              // value={formik.values.genre}
-              // onChange={formik.handleChange}
+              value={formik.values.genre}
+              onChange={formik.handleChange}
             >
-              <option value="">Adventure</option>
-              <option value="">Apocalyptic</option>
-              <option value="">Art</option>
-              <option value="">Autobiography</option>
-              <option value="">Biography</option>
-              <option value="">Business</option>
-              <option value="">Childrens Fiction</option>
-              <option value="">Cooking</option>
-              <option value="">Education</option>
-              <option value="">Fantasy</option>
-              <option value="">Health</option>
-              <option value="">History</option>
-              <option value="">Historical Fiction</option>
-              <option value="">Hobby</option>
-              <option value="">Horror</option>
-              <option value="">Humor</option>
-              <option value="">Law</option>
-              <option value="">LGBTQ</option>
-              <option value="">Memoir</option>
-              <option value="">Mystery</option>
-              <option value="">Philosophy</option>
-              <option value="">Photography</option>
-              <option value="">Politics</option>
-              <option value="">Relationships</option>
-              <option value="">Religion</option>
-              <option value="">Romance</option>
-              <option value="">Science Fiction</option>
-              <option value="">Self-Help</option>
-              <option value="">Thriller</option>
-              <option value="">Travel</option>
-              <option value="">True Crime</option>
-              <option value="">Young Adult</option>
+              <option value="adventure">Adventure</option>
+              <option value="apocalyptic">Apocalyptic</option>
+              <option value="art">Art</option>
+              <option value="autobiography">Autobiography</option>
+              <option value="biography">Biography</option>
+              <option value="business">Business</option>
+              <option value="childrens fiction">Childrens Fiction</option>
+              <option value="cooking">Cooking</option>
+              <option value="education">Education</option>
+              <option value="fantasy">Fantasy</option>
+              <option value="health">Health</option>
+              <option value="history">History</option>
+              <option value="historical fiction">Historical Fiction</option>
+              <option value="hobby">Hobby</option>
+              <option value="horror">Horror</option>
+              <option value="humor">Humor</option>
+              <option value="law">Law</option>
+              <option value="lgbtq">LGBTQ</option>
+              <option value="memoir">Memoir</option>
+              <option value="mystery">Mystery</option>
+              <option value="philosophy">Philosophy</option>
+              <option value="photography">Photography</option>
+              <option value="politics">Politics</option>
+              <option value="relationships">Relationships</option>
+              <option value="religion">Religion</option>
+              <option value="romance">Romance</option>
+              <option value="science fiction">Science Fiction</option>
+              <option value="self-help">Self-Help</option>
+              <option value="thriller">Thriller</option>
+              <option value="travel">Travel</option>
+              <option value="true crime">True Crime</option>
+              <option value="young adult">Young Adult</option>
             </select>
           </div>
           <div className="mb-4">

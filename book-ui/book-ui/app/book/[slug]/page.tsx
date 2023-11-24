@@ -18,7 +18,7 @@ export default function BookDetail({ params }: { params: { slug: string } }) {
     }, []);
 
     book.summary = 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repudiandae ullam fuga reiciendis nemo, est dolorem, debitis, facere quas laudantium eos fugit similique eum commodi dolorum ut repellat totam rerum. Quod, voluptatum! Obcaecati sint ad sunt modi quos consequatur aliquid corrupti dolorum aperiam distinctio maxime quo voluptatem, itaque ratione veniam inventore saepe, aspernatur perspiciatis magni voluptas asperiores dignissimos consequuntur minima labore. Accusantium ratione, placeat eius earum sint dicta velit nesciunt officia, repudiandae, sunt inventore necessitatibus asperiores porro. Asperiores et excepturi reiciendis in eaque molestias consequuntur ipsam, nihil ut itaque. Necessitatibus aliquid facere alias reprehenderit aut sequi eveniet qui nostrum officia officiis?'
-    book.genre = ['Fantasy', 'Horror', 'Comedy']
+    book.genre = 'Fantasy'
     book.publishedDate = new Date(1993, 8, 27)
 
     // Reduce month by one because for some reason they zero indexed months for localedatestring. idiotic
@@ -53,7 +53,7 @@ export default function BookDetail({ params }: { params: { slug: string } }) {
                 <div>
                     {/* contains summary, genres, have read, and year read */}
                     <p className="mb-6 text-xl">{book.summary}</p>
-                    <h3 className="mb-6 text-xl"><span className="font-medium">Genres: </span>{book.genre.join(', ')}</h3>
+                    <h3 className="mb-6 text-xl"><span className="font-medium">Genres: </span>{book.genre}</h3>
                     <h3 className="mb-6 text-xl"><span className="font-medium">Have Read: </span>Add to user and then get from user</h3>
                     <h3 className="mb-6 text-xl"><span className="font-medium">Year Read: </span>Add to user and then get from user</h3>
                 </div>

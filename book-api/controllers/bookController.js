@@ -102,7 +102,7 @@ exports.createBook = catchAsync(async (req, res, next) => {
     // console.log('MADE IT HERE')
     // console.log(req.body)
     // console.log(req.headers)
-    
+
         // !! I don't know if this will work with real forms
         // !! This works with insomnia multipart forms
         const author = {
@@ -239,10 +239,11 @@ function sanitizeData(data) {
     'art', 'photography', 'self-help', 'health', 'history', 'hobby', 'relationships', 'humor',
     'business', 'law', 'politics', 'philosophy', 'religion', 'education', 'travel', 'true crime']
 
-    // genre: Check for acceptable genres and capitalize them
+    // genre: Check for acceptable genres
     if (data.genre) {
-        data.genre = data.genre.filter(genre => acceptableGenres.includes(genre.toLowerCase()))
-        data.genre = data.genre.map(genre => genre.charAt(0).toUpperCase() + genre.slice(1))
+        console.log(data.genre)
+        data.genre = acceptableGenres.includes(data.genre.toLowerCase()) ? data.genre : ''
+        console.log(data.genre)
     }
 
     // haveRead: data.haveRead; convert from string to boolean. throw error if it can't work

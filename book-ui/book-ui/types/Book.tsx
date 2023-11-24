@@ -8,7 +8,7 @@ export interface Book {
     coverPhoto: string;
     slug: string;
     __v?: number;
-    genre?: string[];
+    genre?: string;
     pages?: number;
     publishedDate?: Date;
 }
@@ -25,6 +25,6 @@ export const emptyBook = {
     coverPhoto: '',
     publishedDate: new Date(1993, 8, 27),
     slug: '',
-    genre: [],
+    genre: '',
     pages: 0
 }
