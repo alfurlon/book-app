@@ -100,8 +100,8 @@ exports.getBookBySlug = catchAsync(async (req, res, next) => {
 
 exports.createBook = catchAsync(async (req, res, next) => {
     // console.log('MADE IT HERE')
-    console.log(req.body)
-    console.log(req.file)
+    // console.log(req.body)
+    // console.log(req.file)
     // console.log(req.headers)
 
         // !! I don't know if this will work with real forms
