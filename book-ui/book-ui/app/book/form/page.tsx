@@ -3,13 +3,10 @@
 import bookPhoto from "../../../public/imgs/bookshelf-bg.jpg"
 import Image from "next/image"
 import { useFormik } from "formik"
-import { Book, emptyBook } from "@/types/Book"
-import { Author, emptyAuthor } from "@/types/Author"
-import { User, emptyUser } from "@/types/User"
 import * as Yup from "yup"
 import { useRouter } from "next/navigation"
 import axios from "axios"
-import { useEffect } from "react"
+import { capitalizeEachWord } from '../../../utils/helperMethods'
 
 export default function Home() {
   const router = useRouter();
@@ -18,42 +15,51 @@ export default function Home() {
   const formik = useFormik({
     initialValues: {
       bookTitle: '',
-      // publishedDate: new Date(),
+      publishedDate: '',
       summary: '',
       genre: '',
       pages: 0,
       haveRead: false,
       yearRead: 0,
-      coverPhoto: null,
+      // coverPhoto: null,
       authorFirstName: '',
       authorLastName: ''
     },
     validationSchema: Yup.object({
       bookTitle: Yup.string().required("Must include a title"),
+      publishedDate: Yup.string(),
       summary: Yup.string(),
       genre: Yup.string(),
       pages: Yup.number(),
       haveRead: Yup.boolean(),
       yearRead: Yup.number(),
-      coverPhoto: Yup.mixed().required("Must include a cover photo. Must be less than 100MB"),
+      // coverPhoto: Yup.mixed().required("Must include a cover photo. Must be less than 100MB"),
       authorFirstName: Yup.string().required("Must include an author first name"),
       authorLastName: Yup.string().required("Must include an author last name")
     }),
     onSubmit: values => {
+
+      // Capitalize the word
+      values.bookTitle = capitalizeEachWord(values.bookTitle)
+      values.authorFirstName = capitalizeEachWord(values.authorFirstName)
+      values.authorLastName = capitalizeEachWord(values.authorLastName)
+      values.genre = capitalizeEachWord(values.genre)
+
       const formData = new FormData()
       formData.append('title', values.bookTitle)
+      formData.append('publishedDate', values.publishedDate)
       formData.append('summary', values.summary)
       formData.append('genre', values.genre)
       formData.append('pages', values.pages.toString())
       formData.append('yearRead', values.yearRead.toString())
-      console.log('coverPhoto: ', values.coverPhoto)
-      if (values.coverPhoto !== null) {
-        formData.append('coverPhoto', values.coverPhoto as Blob)
-      }
+      // if (values.coverPhoto !== null) {
+      //   formData.append('coverPhoto', values.coverPhoto as Blob)
+      // }
       formData.append('authorFirstName', values.authorFirstName)
       formData.append('authorLastName', values.authorLastName)
+      formData.append('haveRead', values.haveRead.toString())
 
-      // alert(JSON.stringify(values.coverPhoto, null, 2))
+      // alert(JSON.stringify(values, null, 2))
       // console.log('FormData: ', formData)
 
       axios.post('http://localhost:3001/api/v1/books', formData, {
@@ -68,10 +74,6 @@ export default function Home() {
       .catch(err => console.log(err))
     }
   })
-
-  // useEffect(() => {
-  //   console.log('formik.values.coverPhoto:', formik.values.coverPhoto);
-  // }, [formik.values.coverPhoto]);
 
   return (
     <div className="h-screen bg-none flex justify-between">
@@ -99,8 +101,8 @@ export default function Home() {
               className="rounded-md"
               type="date"
               name="publishedDate"
-              // value={formik.values.publishedDate}
-              // onChange={formik.handleChange}
+              value={formik.values.publishedDate}
+              onChange={formik.handleChange}
             />
           </div>
           <div className="mb-4">
@@ -122,6 +124,7 @@ export default function Home() {
               value={formik.values.genre}
               onChange={formik.handleChange}
             >
+              <option value=""></option>
               <option value="adventure">Adventure</option>
               <option value="apocalyptic">Apocalyptic</option>
               <option value="art">Art</option>
@@ -172,7 +175,7 @@ export default function Home() {
               className="rounded-md"
               type="checkbox"
               name="haveRead"
-              value={formik.values.haveRead.toString()}
+              checked={formik.values.haveRead}
               onChange={formik.handleChange}
             />
           </div>
@@ -189,7 +192,7 @@ export default function Home() {
           <div className="mb-4">
             <label htmlFor="coverPhoto" className="font-medium text-md block">Cover Photo</label>
             <p className="mb-2 text-slate-400 font-extralight">Must be a jpg, jpeg, or png file</p>
-            {formik.touched.coverPhoto && formik.errors.coverPhoto ? <p className="text-red-500">{formik.errors.coverPhoto}</p> : ''}
+            {/* {formik.touched.coverPhoto && formik.errors.coverPhoto ? <p className="text-red-500">{formik.errors.coverPhoto}</p> : ''} */}
             <input
               className="rounded-md"
               type="file"

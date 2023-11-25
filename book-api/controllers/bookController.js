@@ -8,7 +8,7 @@ exports.getAllBooks = catchAsync(async (req, res, next) => {
     const books = await Book.find({});
     const authors = await Author.find({});
 
-    // replace book.author with the author
+    // replace book.author (which is just the authorId) with the author object
     books.forEach((book) => {
         const author = authors.find((author) => author.id.toString() === book.author.toString());
         book.author = author;
@@ -24,7 +24,6 @@ exports.getAllBooks = catchAsync(async (req, res, next) => {
 
 exports.getBookById = catchAsync(async (req, res, next) => {
     const book = await Book.findById(req.params.id);
-
 
     if (!book) {
         return next(new AppError('No book found', 404));
@@ -99,125 +98,117 @@ exports.getBookBySlug = catchAsync(async (req, res, next) => {
 })
 
 exports.createBook = catchAsync(async (req, res, next) => {
-    // console.log('MADE IT HERE')
-    // console.log(req.body)
-    // console.log(req.file)
-    // console.log(req.headers)
 
-        // !! I don't know if this will work with real forms
-        // !! This works with insomnia multipart forms
-        const author = {
-            firstName: req.body.authorFirstName,
-            lastName: req.body.authorLastName
-          };
-        // !! Still need to test unhappy path
-        // !! Maybe practice with Mocha
-        //!! Need to handle the case of photos being larger than 100MB
+    const author = {
+        firstName: req.body.authorFirstName,
+        lastName: req.body.authorLastName
+        };
 
-        // Checking if the author exists
-        // If they do, do nothing
-        // if they don't save information
-        const existingAuthor = await Author.findOne({
-            firstName: { $regex: new RegExp(`^${author.firstName}$`, 'i') },
-            lastName: { $regex: new RegExp(`^${author.lastName}$`, 'i') }});
-        let authorId;
-        let newAuthor;
-        if (existingAuthor) {
-            authorId = existingAuthor._id;
-        } else {
-            newAuthor = new Author({
-                firstName: author.firstName,
-                lastName: author.lastName
-            });
+    //!! Need to handle the case of photos being larger than 100MB
 
-            await newAuthor.save();
-            authorId = newAuthor._id;
-        }
-
-        // !! Edit the user object haveRead and yearRead
-
-        req.body = sanitizeData(req.body)
-        
-        // Create and save new book
-        const book = new Book({
-            title: req.body.title,
-            author: authorId,
-            summary: req.body.summary,
-            coverPhoto: req.file.path,
-            publishedDate: req.body.publishedDate,
-            genre: req.body.genre,
-            pages: req.body.pages
+    // Checking if the author exists
+    // If they do, assign existing authors id to authorId variable
+    // if they don't save information
+    const existingAuthor = await Author.findOne({
+        firstName: { $regex: new RegExp(`^${author.firstName}$`, 'i') },
+        lastName: { $regex: new RegExp(`^${author.lastName}$`, 'i') }});
+    let authorId;
+    let newAuthor;
+    if (existingAuthor) {
+        authorId = existingAuthor._id;
+    } else {
+        newAuthor = new Author({
+            firstName: author.firstName,
+            lastName: author.lastName
         });
 
-        // !! Need to review this. It will save even with an error
-        // !! had an error just below this but it already saved the book
-        const newBook = await book.save();
+        await newAuthor.save();
+        authorId = newAuthor._id;
+    }
 
-        // Add book to user creating the book
-        // The user signed in should be at req.user
-        // !! Turning off for right now. Need a way to better handle the error if there is no bookList
-        // req.user.bookList.push(newBook._id)
-        // const updatedUser = await User.findByIdAndUpdate(req.user._id, req.user)
+    // !! Edit the user object haveRead and yearRead
+
+    req.body = sanitizeData(req.body)
+    
+    // Create and save new book
+    const book = new Book({
+        title: req.body.title,
+        author: authorId,
+        summary: req.body.summary,
+        coverPhoto: req.file?.path,
+        publishedDate: req.body.publishedDate,
+        genre: req.body.genre,
+        pages: req.body.pages
+    });
+
+    // !! Need to review this. It will save even with an error
+    // !! had an error just below this but it already saved the book
+    const newBook = await book.save();
+
+    // Add book to user creating the book
+    // The user signed in should be at req.user
+    // !! Turning off for right now. Need a way to better handle the error if there is no bookList
+    // req.user.bookList.push(newBook._id)
+    // const updatedUser = await User.findByIdAndUpdate(req.user._id, req.user)
 
 
-        // Send response with newly created book and author
-        res.status(201).json({
-            status: 'success',
-            result: {
-                newBook,
-                newAuthor,
-                // updatedUser
-            }
-        })
+    // Send response with newly created book and author
+    res.status(201).json({
+        status: 'success',
+        result: {
+            newBook,
+            newAuthor,
+            // updatedUser
+        }
+    })
 })
 
 exports.updateBook = async (req, res, next) => {
-        // Check if the photo is being updated
-        // If so get the url for it
-        // const photo = req.files.photo;
-        // let result;
-        // if (photo) {
-        //     result = await cloudinary.uploader.upload(file.tempFilePath);
-        // }
-        // Skip this for now
+    // !! Logic for updating photo if I ever want to add that in
+    // Check if the photo is being updated
+    // If so get the url for it
+    // const photo = req.files.photo;
+    // let result;
+    // if (photo) {
+    //     result = await cloudinary.uploader.upload(file.tempFilePath);
+    // }
 
-        // Check if updating the author
-        // Skip this for now
+    // Check if updating the author
+    // Skip this for now
 
-        // !! Edit the user object haveRead and yearRead
+    // !! Edit the user object haveRead and yearRead
 
-        req.body = sanitizeData(req.body)
+    req.body = sanitizeData(req.body)
 
-        // Update the book
-        const book = new Book({
-            title: req.body.title,
-            // author: authorId,
-            summary: req.body.summary,
-            //coverPhoto: result.secure_url,
-            publishedDate: req.body.publishedDate,
-            genre: req.body.genre,
-            pages: req.body.pages
-        });
+    // Update the book
+    const book = new Book({
+        title: req.body.title,
+        // author: authorId,
+        summary: req.body.summary,
+        //coverPhoto: result.secure_url,
+        publishedDate: req.body.publishedDate,
+        genre: req.body.genre,
+        pages: req.body.pages
+    });
 
-        const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true
+    const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true
+    })
+
+    if (!updatedBook) {
+        return next(new AppError('No book found', 404));
+    } else {
+        res.status(200).json({
+            status: 'success',
+            result: {
+                updatedBook
+            }
         })
-
-        if (!updatedBook) {
-            return next(new AppError('No book found', 404));
-        } else {
-            res.status(200).json({
-                status: 'success',
-                result: {
-                    updatedBook
-                }
-            })
-        }
+    }
 }
 
 exports.deleteBook = async (req, res, next) => {
-    // !! Should try to see if I can delete the photo from cloudinary from here
     const book = await Book.findByIdAndDelete(req.params.id);
 
     if (!book) {
@@ -242,14 +233,18 @@ function sanitizeData(data) {
 
     // genre: Check for acceptable genres
     if (data.genre) {
-        console.log(data.genre)
         data.genre = acceptableGenres.includes(data.genre.toLowerCase()) ? data.genre : ''
-        console.log(data.genre)
     }
 
     // haveRead: data.haveRead; convert from string to boolean. throw error if it can't work
     if (data.haveRead) {
         data.haveRead = data.haveRead === 'true' ? true : false
+    }
+
+    // publishedDate: The date is coming in as a string. Need to convert it to a date
+    if (data.publishedDate) {
+        dateArr = data.publishedDate.split('-')
+        data.publishedDate = new Date(dateArr[0], dateArr[1], dateArr[2])
     }
 
     // !! yearRead should not be in the future

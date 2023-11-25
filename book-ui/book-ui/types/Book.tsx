@@ -10,7 +10,7 @@ export interface Book {
     __v?: number;
     genre?: string;
     pages?: number;
-    publishedDate?: Date;
+    publishedDate?: string;
 }
 
 export const emptyBook = {
@@ -23,7 +23,7 @@ export const emptyBook = {
     },
     summary: '',
     coverPhoto: '',
-    publishedDate: new Date(1993, 8, 27),
+    publishedDate: '',
     slug: '',
     genre: '',
     pages: 0
