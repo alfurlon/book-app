@@ -149,6 +149,14 @@ exports.createBook = catchAsync(async (req, res, next) => {
     // The user signed in should be at req.user
     // !! Turning off for right now. Need a way to better handle the error if there is no bookList
     // req.user.bookList.push(newBook._id)
+
+    // Handle haveRead and yearRead
+    // The bookId as a string will be the key, and then haveRead/yearRead will be the value
+    // !! Need to test these after I set up the user login
+    // req.user.haveRead.set(newBook._id.toString(), req.body.haveRead)
+    // req.user.yearRead.set(newBook._id.toString(), req.body.yearRead)
+
+    // update the user
     // const updatedUser = await User.findByIdAndUpdate(req.user._id, req.user)
 
 

@@ -198,9 +198,7 @@ export default function Home() {
               type="file"
               name="coverPhoto"
               onChange={(e) => {
-                // console.log(e.currentTarget.files[0])
                 formik.setFieldValue("coverPhoto", e.currentTarget.files[0])
-                // console.log(formik.values.coverPhoto)
               }}
             />
           </div>
