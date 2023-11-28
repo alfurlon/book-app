@@ -11,6 +11,8 @@ import { capitalizeEachWord } from '../../../utils/helperMethods'
 export default function Home() {
   const router = useRouter();
 
+  // !! Add the error logic I have in my login/signup page
+
   // formik
   const formik = useFormik({
     initialValues: {

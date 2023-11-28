@@ -22,6 +22,6 @@ export const emptyUser = {
     role: '',
     active: true,
     bookList: [],
-    haveRead: {},
-    yearRead: {}
+    haveRead: undefined,
+    yearRead: undefined
 }
