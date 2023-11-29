@@ -10,6 +10,7 @@ export default function Home() {
   const [isNewUser, setIsNewUser] = useState<boolean>(true)
   // When I get a login or signup error display it to the user
   // so they know what happened
+  // This should rarely happen as I have validation below as well
   const [errorMessages, setErrorMessages] = useState<string[]>([])
 
   const handleClick = () => {
@@ -61,9 +62,11 @@ export default function Home() {
             'Content-Type': 'application/json'
           }
         })
-          .then(data => console.log(data))
+          .then(response => {
+            localStorage.setItem('token', response.data.token)
+            // After this send them to their book gallery
+          })
           .catch(error => {
-            console.log(error.response.data.message.split('.'))
             setErrorMessages(error.response.data.message.split('.'))
           })
       } else {
@@ -72,8 +75,13 @@ export default function Home() {
             'Content-Type': 'application/json'
           }
         })
-          .then(data => console.log(data))
-          .catch(error => setErrorMessages(error.message))
+          .then(response => {
+            localStorage.setItem('token', response.data.token)
+            // After this send them to their book gallery
+          })
+          .catch(error => {
+            setErrorMessages(error.response.data.message.split('.'))
+          })
       }
     }
   })

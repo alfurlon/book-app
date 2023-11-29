@@ -7,6 +7,7 @@ export interface User {
     passwordConfirm: string,
     role: string,
     active: boolean,
+    // !! This string[] may cause a problem with the backend
     bookList?: string[],
     haveRead?: Map<string, boolean>,
     yearRead?: Map<string, number>
