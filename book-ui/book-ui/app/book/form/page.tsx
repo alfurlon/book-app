@@ -13,6 +13,9 @@ export default function Home() {
 
   // !! Add the error logic I have in my login/signup page
 
+  // !! Add a boolean here to check if it should be editing an existing book or not
+  // !! for the fields display something like {book.bookTitle ? book.bookTitle : '' }
+
   // formik
   const formik = useFormik({
     initialValues: {
