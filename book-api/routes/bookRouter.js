@@ -23,4 +23,6 @@ router
 
 router.route('/slug/:slug').get(bookController.getBookBySlug)
 
+router.route('/user/:id').get(bookController.getBooksByUserId)
+
 module.exports = router;

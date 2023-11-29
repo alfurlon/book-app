@@ -97,6 +97,32 @@ exports.getBookBySlug = catchAsync(async (req, res, next) => {
     }
 })
 
+exports.getBooksByUserId = catchAsync(async (req, res, next) => {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+        return next(new AppError('No user found', 404));
+    }
+
+    // Populate bookList with full books
+    let filledBookList = []
+    for (const id of user.bookList) {
+        const book = await Book.findById(id)
+        filledBookList.push(book)
+    }
+
+    if (!filledBookList.length) {
+        return next(new AppError('No books in list', 404));
+    } else {
+        res.status(200).json({
+            status: 'success',
+            data: {
+                filledBookList
+            }
+          });
+    }
+})
+
 exports.createBook = catchAsync(async (req, res, next) => {
 
     const author = {

@@ -19,12 +19,12 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 exports.getUserById = catchAsync(async (req, res, next) => {
     const user = await User.findById(req.params.id);
 
-    // Populate bookList with full books
-    let filledBookList = []
-    for (const id of user.bookList) {
-        const book = await Book.findById(id)
-        filledBookList.push(book)
-    }
+    // // Populate bookList with full books
+    // let filledBookList = []
+    // for (const id of user.bookList) {
+    //     const book = await Book.findById(id)
+    //     filledBookList.push(book)
+    // }
 
     if (!user) {
         return next(new AppError('No user found', 404));
@@ -33,7 +33,7 @@ exports.getUserById = catchAsync(async (req, res, next) => {
             status: 'success',
             result: {
                 user,
-                filledBookList
+                // filledBookList
             }
         })
     }

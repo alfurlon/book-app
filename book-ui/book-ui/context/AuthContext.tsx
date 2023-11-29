@@ -23,7 +23,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         if (token) {
             const decodedToken = JSON.parse(atob(token.split('.')[1]))
             axios.get(`http://localhost:3001/api/v1/users/${decodedToken.id}`)
-                .then(data => console.log(data))
+                .then(response => {
+                    // console.log(response.data.result.user)
+                    setUser(response.data.result.user)
+                })
                 .catch(error => console.log(error))
         }
     }, [])

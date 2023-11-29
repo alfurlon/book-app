@@ -13,6 +13,8 @@ export default function Home() {
   // This should rarely happen as I have validation below as well
   const [errorMessages, setErrorMessages] = useState<string[]>([])
 
+  const router = useRouter();
+
   const handleClick = () => {
     setIsNewUser(!isNewUser)
   }
@@ -65,6 +67,7 @@ export default function Home() {
           .then(response => {
             localStorage.setItem('token', response.data.token)
             // After this send them to their book gallery
+            router.push('/book/gallery')
           })
           .catch(error => {
             setErrorMessages(error.response.data.message.split('.'))
@@ -78,6 +81,7 @@ export default function Home() {
           .then(response => {
             localStorage.setItem('token', response.data.token)
             // After this send them to their book gallery
+            router.push('/book/gallery')
           })
           .catch(error => {
             setErrorMessages(error.response.data.message.split('.'))
