@@ -20,6 +20,7 @@ export default function NavBar() {
             <div className="ml-20">
                 <Link href="/" className="hover:text-hover-text-color"><h1 className="text-3xl font-bold">The Virtual Bookshelf</h1></Link>
             </div>
+            {/* {JSON.stringify(user, null, 2)} */}
             <div className="flex justify-between items-center mr-20">
                 <div className="mr-10">
                     <Link href="/book/form" className="hover:text-hover-text-color text-2xl"><BsPlusSquareFill /></Link>

@@ -67,12 +67,11 @@ export default function Home() {
           }
         })
           .then(response => {
-            localStorage.setItem('token', response.data.token)
-            // After this send them to their book gallery
-            router.push('/book/gallery')
+            // console.log(response)
+            login(response.data.token)
           })
           .catch(error => {
-            setErrorMessages(error.response.data.message.split('.'))
+            setErrorMessages(error)
           })
       } else {
         axios.post('http://localhost:3001/api/v1/users/login', formData, {
@@ -81,7 +80,7 @@ export default function Home() {
           }
         })
           .then(response => {
-            console.log(response)
+            // console.log(response)
             login(response.data.data.token)
           })
           .catch(error => {
@@ -94,7 +93,7 @@ export default function Home() {
   return (
     <main className="h-screen bg-none">
       <h1>Signup</h1>
-      {errorMessages && <div><p>{errorMessages.join(', ')}</p></div>}
+      {/* {errorMessages && <div><p>{errorMessages.join(', ')}</p></div>} */}
       <form onSubmit={formik.handleSubmit}>
         {isNewUser
           &&
