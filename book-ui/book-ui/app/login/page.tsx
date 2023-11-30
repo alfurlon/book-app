@@ -13,7 +13,7 @@ export default function Home() {
   // When I get a login or signup error display it to the user
   // so they know what happened
   // This should rarely happen as I have validation below as well
-  const [errorMessages, setErrorMessages] = useState<string[]>([])
+  const [errorMessages, setErrorMessages] = useState<string>('')
 
   const router = useRouter();
 
@@ -71,7 +71,8 @@ export default function Home() {
             login(response.data.token)
           })
           .catch(error => {
-            setErrorMessages(error)
+            console.log(error)
+            setErrorMessages(error.response.data.message)
           })
       } else {
         axios.post('http://localhost:3001/api/v1/users/login', formData, {
@@ -84,7 +85,8 @@ export default function Home() {
             login(response.data.data.token)
           })
           .catch(error => {
-            setErrorMessages(error.response.data.message.split('.'))
+            console.log(error)
+            setErrorMessages(error.response.data.message)
           })
       }
     }
@@ -93,7 +95,7 @@ export default function Home() {
   return (
     <main className="h-screen bg-none">
       <h1>Signup</h1>
-      {/* {errorMessages && <div><p>{errorMessages.join(', ')}</p></div>} */}
+      {errorMessages && <div><p>{errorMessages}</p></div>}
       <form onSubmit={formik.handleSubmit}>
         {isNewUser
           &&
