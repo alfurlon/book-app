@@ -4,8 +4,9 @@ const catchAsync = require('./../util/catchAsync');
 const AppError = require('./../util/appError');
 const jwt = require('jsonwebtoken');
 
-const signToken = id => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
+// !! Eventually add haveRead and yearRead to this
+const signToken = (id, name, email, bookList) => {
+    return jwt.sign({ id, name, email, bookList }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN
     })
 }
@@ -20,7 +21,7 @@ exports.signup = catchAsync(async (req, res, next) => {
         role: req.body.role
     })
 
-    const token = signToken(newUser._id)
+    const token = signToken(newUser._id, newUser.name, newUser.email, newUser.bookList)
 
     // only do secure: true in production. It makes it for only HTTPS
     res.cookie('jwt', token, {
@@ -59,7 +60,7 @@ exports.login = catchAsync(async (req, res, next) => {
     }
 
     // 3. Send Token to client
-    const token = signToken(user._id)
+    const token = signToken(user._id, user.name, user.email, user.bookList)
 
     // only do secure: true in production. It makes it for only HTTPS
     res.cookie('jwt', token, {
@@ -70,7 +71,9 @@ exports.login = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
         status: 'success',
-        token
+        data: {
+            token
+        }
     })
 })
 

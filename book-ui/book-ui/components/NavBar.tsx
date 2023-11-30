@@ -27,7 +27,7 @@ export default function NavBar() {
                 <div className="mr-10">
                     <Link href="/book/gallery" className="hover:text-hover-text-color text-2xl"><FaBookOpen /></Link>
                 </div>
-                {!user?._id
+                {!user?.id
                     ? 
                     <div>
                         <Link href="/login" className="hover:text-hover-text-color text-2xl"><FaUser /></Link>
@@ -82,7 +82,10 @@ export default function NavBar() {
                                         <button
                                             type="button"
                                             className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                                            onClick={logout}
+                                            onClick={() => {
+                                                setIsOpen(false)
+                                                logout()
+                                            }}
                                         >
                                             Logout
                                         </button>

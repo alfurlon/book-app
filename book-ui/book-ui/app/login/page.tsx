@@ -5,9 +5,11 @@ import { useFormik } from "formik"
 import * as Yup from "yup"
 import { useRouter } from "next/navigation"
 import axios from "axios"
+import { useAuth } from "@/context/AuthContext"
 
 export default function Home() {
   const [isNewUser, setIsNewUser] = useState<boolean>(true)
+  const { login } = useAuth()
   // When I get a login or signup error display it to the user
   // so they know what happened
   // This should rarely happen as I have validation below as well
@@ -79,9 +81,8 @@ export default function Home() {
           }
         })
           .then(response => {
-            localStorage.setItem('token', response.data.token)
-            // After this send them to their book gallery
-            router.push('/book/gallery')
+            console.log(response)
+            login(response.data.data.token)
           })
           .catch(error => {
             setErrorMessages(error.response.data.message.split('.'))

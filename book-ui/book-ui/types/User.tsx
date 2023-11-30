@@ -1,12 +1,12 @@
 
 export interface User {
-    _id: string,
+    id: string,
     name: string,
     email: string,
-    password: string,
-    passwordConfirm: string,
-    role: string,
-    active: boolean,
+    // password: string,
+    // passwordConfirm: string,
+    // role: string,
+    // active: boolean,
     // !! This string[] may cause a problem with the backend
     bookList?: string[],
     haveRead?: Map<string, boolean>,
@@ -15,13 +15,13 @@ export interface User {
 }
 
 export const emptyUser = {
-    _id: '',
+    id: '',
     name: '',
     email: '',
-    password: '',
-    passwordConfirm: 'a',
-    role: '',
-    active: true,
+    // password: '',
+    // passwordConfirm: 'a',
+    // role: '',
+    // active: true,
     bookList: [],
     haveRead: undefined,
     yearRead: undefined
