@@ -1,25 +1,36 @@
 'use client'
 
 import { useState, useEffect } from "react"
-import axiosInstance from "../../../lib/axios"
 import BookGalleryBook from "../../../components/BookGalleryBook"
 import { Book } from "@/types/Book"
 import { useAuth } from "@/context/AuthContext"
+import axios from "axios"
 
 export default function Home() {
   const { user } = useAuth()
   const [books, setBooks] = useState<Book[]>([])
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Get book list from users own booklist
     // Right now going to hard code 6552c60d60a3eb7c0c10e2b6
     // in the future user the actual logged in user id
-    axiosInstance.get('/books/user/6552c60d60a3eb7c0c10e2b6')
-        .then(response => {
-          setBooks(response.data.data.filledBookList)
-        })
-        .catch(err => console.log(err))
-  }, []);
+    if (user?.id) {
+      axios.get(`http://localhost:3001/api/v1/books/user/${user?.id}`)
+      .then(response => {
+        setBooks(response.data.data.filledBookList)
+      })
+      .catch(err => console.log(err))
+      .finally(() => {
+        setIsLoading(false);
+      });
+    }
+  }, [user?.id]);
+
+  if (isLoading) {
+    // !! Create a loading animation
+    return <p>Loading...</p>
+  }
 
   return (
     <main className="h-screen bg-none">

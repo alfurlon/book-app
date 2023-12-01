@@ -108,6 +108,8 @@ exports.getBooksByUserId = catchAsync(async (req, res, next) => {
     let filledBookList = []
     for (const id of user.bookList) {
         const book = await Book.findById(id)
+        const author = await Author.findById(book.author._id)
+        book.author = author
         filledBookList.push(book)
     }
 
@@ -119,11 +121,20 @@ exports.getBooksByUserId = catchAsync(async (req, res, next) => {
             data: {
                 filledBookList
             }
-          });
+        });
     }
 })
 
 exports.createBook = catchAsync(async (req, res, next) => {
+
+    // Get user.
+    // If user doesn't exist return an error and do not save book
+    const existingUser = await User.findById(req.headers.id)
+    console.log(existingUser)
+
+    if (!existingUser) {
+        return next(new AppError('No user to save book to.', 400))
+    }
 
     const author = {
         firstName: req.body.authorFirstName,
@@ -171,10 +182,13 @@ exports.createBook = catchAsync(async (req, res, next) => {
     // !! had an error just below this but it already saved the book
     const newBook = await book.save();
 
+    // !! could I set a header to be the userId?
+
     // Add book to user creating the book
     // The user signed in should be at req.user
     // !! Turning off for right now. Need a way to better handle the error if there is no bookList
-    // req.user.bookList.push(newBook._id)
+    existingUser.bookList.push(newBook._id)
+    console.log('booklist afer push', existingUser)
 
     // Handle haveRead and yearRead
     // The bookId as a string will be the key, and then haveRead/yearRead will be the value
@@ -183,7 +197,10 @@ exports.createBook = catchAsync(async (req, res, next) => {
     // req.user.yearRead.set(newBook._id.toString(), req.body.yearRead)
 
     // update the user
-    // const updatedUser = await User.findByIdAndUpdate(req.user._id, req.user)
+    const updatedUser = await User.findByIdAndUpdate(existingUser._id, existingUser)
+    console.log('updatedUser', updatedUser)
+    const newBookList = updatedUser.bookList
+    console.log('new book list', newBookList)
 
 
     // Send response with newly created book and author
@@ -192,7 +209,7 @@ exports.createBook = catchAsync(async (req, res, next) => {
         result: {
             newBook,
             newAuthor,
-            // updatedUser
+            newBookList
         }
     })
 })

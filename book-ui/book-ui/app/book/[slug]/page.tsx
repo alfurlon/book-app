@@ -29,6 +29,7 @@ export default function BookDetail({ params }: { params: { slug: string } }) {
 
     return (
         <div className="flex w-3/4 justify-center ml-20">
+            <div>{JSON.stringify(book, null, 2)}</div>
             <div className="mr-40">
                 {/* Contains photo, published date, and page count */}
                 <Image

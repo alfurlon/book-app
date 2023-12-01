@@ -7,9 +7,11 @@ import * as Yup from "yup"
 import { useRouter } from "next/navigation"
 import axios from "axios"
 import { capitalizeEachWord } from '../../../utils/helperMethods'
+import { useAuth } from "@/context/AuthContext"
 
 export default function Home() {
   const router = useRouter();
+  const { user } = useAuth()
 
   // !! Add the error logic I have in my login/signup page
 
@@ -69,7 +71,8 @@ export default function Home() {
 
       axios.post('http://localhost:3001/api/v1/books', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'multipart/form-data',
+          'id': user?.id
         }
       })
       .then(data => {
