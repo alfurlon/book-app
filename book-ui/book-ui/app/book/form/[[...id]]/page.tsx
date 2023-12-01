@@ -1,36 +1,53 @@
 'use client'
 
-import bookPhoto from "../../../public/imgs/bookshelf-bg.jpg"
+import bookPhoto from "@/public/imgs/bookshelf-bg.jpg"
 import Image from "next/image"
 import { useFormik } from "formik"
 import * as Yup from "yup"
 import { useRouter } from "next/navigation"
 import axios from "axios"
-import { capitalizeEachWord } from '../../../utils/helperMethods'
+import { capitalizeEachWord } from '@/utils/helperMethods'
 import { useAuth } from "@/context/AuthContext"
+import { useState, useEffect } from "react"
+import axiosInstance from "@/lib/axios"
+import { Book, emptyBook } from "@/types/Book"
 
-export default function Home() {
+export default function Home({ params }: { params: { id: string } }) {
   const router = useRouter();
   const { user } = useAuth()
+  const [errorMessages, setErrorMessages] = useState<string>('')
+  const [existingBook, setExistingBook] = useState<Book>(emptyBook)
+  const [isEditingBook, setIsEditingBook] = useState<boolean>(false)
 
   // !! Add the error logic I have in my login/signup page
 
   // !! Add a boolean here to check if it should be editing an existing book or not
   // !! for the fields display something like {book.bookTitle ? book.bookTitle : '' }
 
+  useEffect(() => {
+    if (params.id) {
+        axiosInstance.get(`/books/slug/${params.id}`)
+        .then(response => {
+            setExistingBook(response.data.result.book)
+            setIsEditingBook(true)
+        })
+        .catch(err => console.log(err))
+    }
+  })
+
   // formik
   const formik = useFormik({
     initialValues: {
-      bookTitle: '',
-      publishedDate: '',
-      summary: '',
-      genre: '',
-      pages: 0,
-      haveRead: false,
-      yearRead: 0,
+      bookTitle: existingBook.title ? existingBook.title : '',
+      publishedDate: existingBook.publishedDate ? existingBook.publishedDate : '',
+      summary: existingBook.summary ? existingBook.summary : '',
+      genre: existingBook.genre ? existingBook.genre : '',
+      pages: existingBook.pages ? existingBook.pages : 0,
+    //   haveRead: false,
+    //   yearRead: 0,
       // coverPhoto: null,
-      authorFirstName: '',
-      authorLastName: ''
+      authorFirstName: existingBook.author.firstName ? existingBook.author.firstName : '',
+      authorLastName: existingBook.author.lastName ? existingBook.author.lastName : ''
     },
     validationSchema: Yup.object({
       bookTitle: Yup.string().required("Must include a title"),
@@ -38,8 +55,8 @@ export default function Home() {
       summary: Yup.string(),
       genre: Yup.string(),
       pages: Yup.number(),
-      haveRead: Yup.boolean(),
-      yearRead: Yup.number(),
+    //   haveRead: Yup.boolean(),
+    //   yearRead: Yup.number(),
       // coverPhoto: Yup.mixed().required("Must include a cover photo. Must be less than 100MB"),
       authorFirstName: Yup.string().required("Must include an author first name"),
       authorLastName: Yup.string().required("Must include an author last name")
@@ -58,28 +75,50 @@ export default function Home() {
       formData.append('summary', values.summary)
       formData.append('genre', values.genre)
       formData.append('pages', values.pages.toString())
-      formData.append('yearRead', values.yearRead.toString())
+    //   formData.append('yearRead', values.yearRead.toString())
       // if (values.coverPhoto !== null) {
       //   formData.append('coverPhoto', values.coverPhoto as Blob)
       // }
       formData.append('authorFirstName', values.authorFirstName)
       formData.append('authorLastName', values.authorLastName)
-      formData.append('haveRead', values.haveRead.toString())
+    //   formData.append('haveRead', values.haveRead.toString())
 
       // alert(JSON.stringify(values, null, 2))
       // console.log('FormData: ', formData)
 
-      axios.post('http://localhost:3001/api/v1/books', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'id': user?.id
-        }
-      })
-      .then(data => {
-        console.log(data)
-        router.push('/book/gallery')
-      })
-      .catch(err => console.log(err))
+      if (isEditingBook) {
+        axios.patch(`http://localhost:3001/api/v1/books/${params.id}`, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
+          .then(data => {
+            console.log(data)
+            router.push('/book/gallery')
+          })
+          .catch(error => {
+              console.log(error)
+              setErrorMessages(error.response.data.message)
+          })
+
+      } else {
+        axios.post('http://localhost:3001/api/v1/books', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              'id': user?.id
+            }
+          })
+          .then(data => {
+            console.log(data)
+            router.push('/book/gallery')
+          })
+          .catch(error => {
+              console.log(error)
+              setErrorMessages(error.response.data.message)
+          })
+      }
+
+
     }
   })
 
@@ -89,6 +128,7 @@ export default function Home() {
         {/* For the title of the page and the form */}
         <h1 className="text-3xl font-bold">Add a Book</h1>
         <p className="mb-6 text-slate-400 font-extralight">* indicates required</p>
+        {errorMessages && <div><p>{errorMessages}</p></div>}
         <form onSubmit={formik.handleSubmit} className="mb-20" encType="multipart/form-data">
           <div className="mb-4">
             <label htmlFor="bookTitle" className="font-medium text-md block mb-2">Book Title*</label>
@@ -177,7 +217,7 @@ export default function Home() {
               onChange={formik.handleChange}
             />
           </div>
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <label htmlFor="haveRead" className="font-medium text-md block mb-2">Have Read</label>
             <input
               className="rounded-md"
@@ -185,9 +225,9 @@ export default function Home() {
               name="haveRead"
               checked={formik.values.haveRead}
               onChange={formik.handleChange}
-            />
-          </div>
-          <div className="mb-4">
+            /> */}
+          {/* </div> */}
+          {/* <div className="mb-4">
             <label htmlFor="yearRead" className="font-medium text-md block mb-2">Year Read</label>
             <input
               className="rounded-md"
@@ -196,7 +236,7 @@ export default function Home() {
               value={formik.values.yearRead}
               onChange={formik.handleChange}
             />
-          </div>
+          </div> */}
           <div className="mb-4">
             <label htmlFor="coverPhoto" className="font-medium text-md block">Cover Photo</label>
             <p className="mb-2 text-slate-400 font-extralight">Must be a jpg, jpeg, or png file</p>
