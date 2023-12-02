@@ -26,7 +26,7 @@ const bookSchema = new mongoose.Schema({
         // required: [true, 'A book must have a photo']
     },
     publishedDate: {
-        type: Date
+        type: String
     },
     // !! Change this back to a single genre for now
     genre: {

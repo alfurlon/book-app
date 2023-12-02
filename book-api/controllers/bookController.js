@@ -294,8 +294,7 @@ function sanitizeData(data) {
 
     // publishedDate: The date is coming in as a string. Need to convert it to a date
     if (data.publishedDate) {
-        dateArr = data.publishedDate.split('-')
-        data.publishedDate = new Date(dateArr[0], dateArr[1], dateArr[2])
+        console.log(data.publishedDate)
     }
 
     // !! yearRead should not be in the future
