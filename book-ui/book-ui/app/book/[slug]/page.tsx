@@ -51,7 +51,7 @@ export default function BookDetail({ params }: { params: { slug: string } }) {
                     </div>
                     <div className="w-40 bg-blue-600 h-12 rounded-md flex justify-center">
                         {/* contains edit button */}
-                        <Link href={`book/form/${book._id}`} className="text-xl text-white self-center">Edit Book</Link>
+                        <Link href={`/book/form/${book._id}`} className="text-xl text-white self-center">Edit Book</Link>
                     </div>
                 </div>
                 <div>
