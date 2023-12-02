@@ -40,21 +40,16 @@ export default function Home({ params }: { params: { id: string } }) {
   const [errorMessages, setErrorMessages] = useState<string>('')
   const [existingBook, setExistingBook] = useState<BookFormValues>(emptyBookForm)
   const [isEditingBook, setIsEditingBook] = useState<boolean>(false)
-  // const [initialValues, setInitialValues] = useState<BookFormValues>(emptyBookForm)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   // !! Add the error logic I have in my login/signup page
 
-  // !! Add a boolean here to check if it should be editing an existing book or not
-  // !! for the fields display something like {book.bookTitle ? book.bookTitle : '' }
-
   useEffect(() => {
-
-    const fetchBook = async () => {
-      try {
-        if (params.id) {
-          const response = await axiosInstance.get(`/books/${params.id}`)
+    if (params.id) {
+        axiosInstance.get(`/books/${params.id}`)
+        .then(response => {
           const bookData = response.data.result.book
-
+            
           // !! I should only include fields I am allowing people to edit
           // !! Should conditionally render the form
           setExistingBook({
@@ -68,111 +63,14 @@ export default function Home({ params }: { params: { id: string } }) {
             authorLastName: bookData.author.lastName
           })
           setIsEditingBook(true)
-        }
-
-      } catch(error) {
-          console.log(JSON.stringify(error, null, 2))
-      }
+          setIsLoading(true)
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+          setIsLoading(false)
+        })
     }
-
-    fetchBook()
-
-
-    // if (params.id) {
-    //     axiosInstance.get(`/books/${params.id}`)
-    //     .then(response => {
-    //       const bookData = response.data.result.book
-    //         setExistingBook(bookData)
-    //         setIsEditingBook(true)
-    //         setInitialValues({
-    //           title: bookData.title,
-    //           publishedDate: bookData.publishedDate,
-    //           summary: bookData.summary,
-    //           genre: bookData.genre,
-    //           pages: bookData.pages,
-    //           //coverPhoto: bookData.coverPhoto,
-    //           authorFirstName: bookData.author.firstName,
-    //           authorLastName: bookData.author.lastName
-    //         })
-    //         console.log(JSON.stringify(initialValues, null, 2))
-    //     })
-    //     .catch(err => console.log(err))
-    // }
   }, [params.id])
-
-  // // formik
-  // const formik = useFormik({
-  //   initialValues: initialValues,
-  //   validationSchema: Yup.object({
-  //     title: Yup.string().required("Must include a title"),
-  //     publishedDate: Yup.string(),
-  //     summary: Yup.string(),
-  //     genre: Yup.string(),
-  //     pages: Yup.number(),
-  //   //   haveRead: Yup.boolean(),
-  //   //   yearRead: Yup.number(),
-  //     // coverPhoto: Yup.mixed().required("Must include a cover photo. Must be less than 100MB"),
-  //     authorFirstName: Yup.string().required("Must include an author first name"),
-  //     authorLastName: Yup.string().required("Must include an author last name")
-  //   }),
-  //   onSubmit: values => {
-
-  //     // Capitalize the word
-  //     values.title = capitalizeEachWord(values.title)
-  //     values.authorFirstName = capitalizeEachWord(values.authorFirstName)
-  //     values.authorLastName = capitalizeEachWord(values.authorLastName)
-  //     values.genre = capitalizeEachWord(values.genre)
-
-  //     const formData = new FormData()
-  //     formData.append('title', values.title)
-  //     formData.append('publishedDate', values.publishedDate)
-  //     formData.append('summary', values.summary)
-  //     formData.append('genre', values.genre)
-  //     formData.append('pages', values.pages.toString())
-  //   //   formData.append('yearRead', values.yearRead.toString())
-  //     // if (values.coverPhoto !== null) {
-  //     //   formData.append('coverPhoto', values.coverPhoto as Blob)
-  //     // }
-  //     formData.append('authorFirstName', values.authorFirstName)
-  //     formData.append('authorLastName', values.authorLastName)
-  //   //   formData.append('haveRead', values.haveRead.toString())
-
-  //     alert(JSON.stringify(values, null, 2))
-  //     console.log('FormData: ', formData)
-
-  //     // if (isEditingBook) {
-  //     //   axios.patch(`http://localhost:3001/api/v1/books/${params.id}`, formData, {
-  //     //       headers: {
-  //     //         'Content-Type': 'multipart/form-data'
-  //     //       }
-  //     //     })
-  //     //     .then(data => {
-  //     //       console.log(data)
-  //     //       router.push('/book/gallery')
-  //     //     })
-  //     //     .catch(error => {
-  //     //         console.log(error)
-  //     //         setErrorMessages(error.response.data.message)
-  //     //     })
-
-  //     // } else {
-  //     //   axios.post('http://localhost:3001/api/v1/books', formData, {
-  //     //       headers: {
-  //     //         'Content-Type': 'multipart/form-data',
-  //     //         'id': user?.id
-  //     //       }
-  //     //     })
-  //     //     .then(data => {
-  //     //       console.log(data)
-  //     //       router.push('/book/gallery')
-  //     //     })
-  //     //     .catch(error => {
-  //     //         console.log(error)
-  //     //         setErrorMessages(error.response.data.message)
-  //     //     })
-  //     // }
-  //   }
-  // })
 
   // const validationSchema = Yup.object({
   //   title: Yup.string().required('Title is required'),
@@ -188,7 +86,64 @@ export default function Home({ params }: { params: { id: string } }) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault()
-    console.log(JSON.stringify(existingBook, null, 2))
+    // Capitalize the word
+    existingBook.title = capitalizeEachWord(existingBook.title)
+    existingBook.authorFirstName = capitalizeEachWord(existingBook.authorFirstName)
+    existingBook.authorLastName = capitalizeEachWord(existingBook.authorLastName)
+    existingBook.genre = capitalizeEachWord(existingBook.genre)
+    const formData = new FormData()
+    formData.append('title', existingBook.title)
+    formData.append('publishedDate', existingBook.publishedDate)
+    formData.append('summary', existingBook.summary)
+    formData.append('genre', existingBook.genre)
+    formData.append('pages', existingBook.pages.toString())
+    //   formData.append('yearRead', existingBook.yearRead.toString())
+    // if (values.coverPhoto !== null) {
+    //   formData.append('coverPhoto', existingBook.coverPhoto as Blob)
+    // }
+    formData.append('authorFirstName', existingBook.authorFirstName)
+    formData.append('authorLastName', existingBook.authorLastName)
+    //   formData.append('haveRead', existingBook.haveRead.toString())
+
+    if (isEditingBook) {
+      axios.patch(`http://localhost:3001/api/v1/books/${params.id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then(data => {
+          console.log(data)
+          router.push('/book/gallery')
+        })
+        .catch(error => {
+            console.log(error)
+            setErrorMessages(error.response.data.message)
+        })
+
+    } else {
+      axios.post('http://localhost:3001/api/v1/books', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'id': user?.id
+          }
+        })
+        .then(data => {
+          console.log(data)
+          router.push('/book/gallery')
+        })
+        .catch(error => {
+            console.log(error)
+            setErrorMessages(error.response.data.message)
+        })
+    }
+    // console.log('existingBook', JSON.stringify(existingBook, null, 2))
+    // console.log('formData', JSON.stringify(formData, null, 2))
+  }
+
+  if (isLoading) {
+    return (
+      <div>Loading...</div>
+    )
   }
 
   return <>
@@ -200,7 +155,7 @@ export default function Home({ params }: { params: { id: string } }) {
       </div>
       <div>
         <label htmlFor="authorFirstName">Author First Name</label>
-        <input type="text" name="authorFirstname" id="authorFirstName" value={existingBook.authorFirstName} onChange={handleChange} />
+        <input type="text" name="authorFirstName" id="authorFirstName" value={existingBook.authorFirstName} onChange={handleChange} />
       </div>
       <div>
         <label htmlFor="authorLastName">Author Last Name</label>
@@ -209,29 +164,6 @@ export default function Home({ params }: { params: { id: string } }) {
       <button type="submit">Submit</button>
     </form>
   </>
-
-  // return (
-  //   <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit} >
-  //     <Form>
-  //       <div>
-  //         <label htmlFor="title">Title:</label>
-  //         <Field type="text" id="title" name="title" />
-  //         <ErrorMessage name="title" component="div" />
-  //       </div>
-  //       <div>
-  //         <label htmlFor="authorFirstName">Author First Name:</label>
-  //         <Field type="text" id="authorFirstName" name="authorFirstName" />
-  //         <ErrorMessage name="authorFirstName" component="div" />
-  //       </div>
-  //       <div>
-  //         <label htmlFor="authorLastName">Author Last Name:</label>
-  //         <Field type="text" id="authorLastName" name="authorLastName" />
-  //         <ErrorMessage name="authorLastName" component="div" />
-  //       </div>
-  //       <button type="submit">Submit</button>
-  //     </Form>
-  //   </Formik>
-  // )
 
   // return (
   //   <div className="h-screen bg-none flex justify-between">
