@@ -130,7 +130,7 @@ exports.createBook = catchAsync(async (req, res, next) => {
     // Get user.
     // If user doesn't exist return an error and do not save book
     const existingUser = await User.findById(req.headers.id)
-    console.log(existingUser)
+    // console.log(existingUser)
 
     if (!existingUser) {
         return next(new AppError('No user to save book to.', 400))
@@ -188,7 +188,7 @@ exports.createBook = catchAsync(async (req, res, next) => {
     // The user signed in should be at req.user
     // !! Turning off for right now. Need a way to better handle the error if there is no bookList
     existingUser.bookList.push(newBook._id)
-    console.log('booklist afer push', existingUser)
+    // console.log('booklist afer push', existingUser)
 
     // Handle haveRead and yearRead
     // The bookId as a string will be the key, and then haveRead/yearRead will be the value
@@ -198,9 +198,9 @@ exports.createBook = catchAsync(async (req, res, next) => {
 
     // update the user
     const updatedUser = await User.findByIdAndUpdate(existingUser._id, existingUser)
-    console.log('updatedUser', updatedUser)
+    // console.log('updatedUser', updatedUser)
     const newBookList = updatedUser.bookList
-    console.log('new book list', newBookList)
+    // console.log('new book list', newBookList)
 
 
     // Send response with newly created book and author
