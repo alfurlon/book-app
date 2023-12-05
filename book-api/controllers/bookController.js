@@ -4,8 +4,6 @@ const User = require('./../models/userModel');
 const AppError = require('./../util/appError');
 const catchAsync = require('./../util/catchAsync');
 
-// !! delete this comment
-
 exports.getAllBooks = catchAsync(async (req, res, next) => {
     const books = await Book.find({});
     const authors = await Author.find({});
