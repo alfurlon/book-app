@@ -84,6 +84,12 @@ export default function Home({ params }: { params: { id: string } }) {
     setExistingBook(nextBook)
   }
 
+  const handleCoverPhotoChange = (evt) => {
+    const nextBook = {...existingBook}
+    nextBook[evt.target.name] = evt.currentTarget.files[0]
+    setExistingBook(nextBook)
+  }
+
   const handleSubmit = (evt) => {
     evt.preventDefault()
     // Capitalize the word
@@ -148,20 +154,81 @@ export default function Home({ params }: { params: { id: string } }) {
 
   return <>
     <h1>{isEditingBook ? 'Update Book' : 'Add Book'}</h1>
+    <p className="mb-6 text-slate-400 font-extralight">* indicates required</p>
     <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="title">Title</label>
-        <input type="text" name="title" id="title" value={existingBook.title} onChange={handleChange} />
+        <label htmlFor="title" className="block font-medium text-md mb-2" >Title*</label>
+        <input type="text" name="title" id="title" className="rounded-md mb-4" value={existingBook.title} onChange={handleChange} />
       </div>
       <div>
-        <label htmlFor="authorFirstName">Author First Name</label>
-        <input type="text" name="authorFirstName" id="authorFirstName" value={existingBook.authorFirstName} onChange={handleChange} />
+        <label htmlFor="publishedDate" className="block font-medium text-md mb-2" >Published Date</label>
+        <input type="date" name="publishedDate" id="publishedDate" className="rounded-md mb-4" value={existingBook.publishedDate} onChange={handleChange} />
       </div>
       <div>
-        <label htmlFor="authorLastName">Author Last Name</label>
-        <input type="text" name="authorLastName" id="authorLastName" value={existingBook.authorLastName} onChange={handleChange} />
+        <label htmlFor="summary" className="block font-medium text-md mb-2" >Summary</label>
+        <textarea name="summary" id="summary" className="rounded-md mb-4" value={existingBook.summary} onChange={handleChange} cols={20} rows={5} />
       </div>
-      <button type="submit">Submit</button>
+      <div>
+        <label htmlFor="genre" className="block font-medium text-md mb-2" >Genre</label>
+        <select name="genre" id="genre" className="rounded-md mb-4" value={existingBook.genre} onChange={handleChange}>
+          <option value=""></option>
+          <option value="adventure">Adventure</option>
+          <option value="apocalyptic">Apocalyptic</option>
+          <option value="art">Art</option>
+          <option value="autobiography">Autobiography</option>
+          <option value="biography">Biography</option>
+          <option value="business">Business</option>
+          <option value="childrens fiction">Childrens Fiction</option>
+          <option value="cooking">Cooking</option>
+          <option value="education">Education</option>
+          <option value="fantasy">Fantasy</option>
+          <option value="health">Health</option>
+          <option value="history">History</option>
+          <option value="historical fiction">Historical Fiction</option>
+          <option value="hobby">Hobby</option>
+          <option value="horror">Horror</option>
+          <option value="humor">Humor</option>
+          <option value="law">Law</option>
+          <option value="lgbtq">LGBTQ</option>
+          <option value="memoir">Memoir</option>
+          <option value="mystery">Mystery</option>
+          <option value="philosophy">Philosophy</option>
+          <option value="photography">Photography</option>
+          <option value="politics">Politics</option>
+          <option value="relationships">Relationships</option>
+          <option value="religion">Religion</option>
+          <option value="romance">Romance</option>
+          <option value="science fiction">Science Fiction</option>
+          <option value="self-help">Self-Help</option>
+          <option value="thriller">Thriller</option>
+          <option value="travel">Travel</option>
+          <option value="true crime">True Crime</option>
+          <option value="young adult">Young Adult</option>
+        </select>
+      </div>
+      <div>
+        <label htmlFor="pages" className="block font-medium text-md mb-2" >Pages</label>
+        <input type="number" name="pages" id="pages" className="rounded-md mb-4" value={existingBook.pages} onChange={handleChange} />
+      </div>
+      <div className="mb-4">
+            <label htmlFor="coverPhoto" className="font-medium text-md block">Cover Photo*</label>
+            <p className="mb-2 text-slate-400 font-extralight">Must be a jpg, jpeg, or png file</p>
+            <input
+              className="rounded-md mb-4"
+              type="file"
+              name="coverPhoto"
+              onChange={handleCoverPhotoChange}
+            />
+          </div>
+      <div>
+        <label htmlFor="authorFirstName" className="block font-medium text-md mb-2" >Author First Name*</label>
+        <input type="text" name="authorFirstName" id="authorFirstName" className="rounded-md mb-4" value={existingBook.authorFirstName} onChange={handleChange} />
+      </div>
+      <div>
+        <label htmlFor="authorLastName" className="block font-medium text-md mb-2" >Author Last Name*</label>
+        <input type="text" name="authorLastName" id="authorLastName" className="rounded-md mb-4" value={existingBook.authorLastName} onChange={handleChange} />
+      </div>
+      <button type="submit" className="text-md font-medium text-white w-24 bg-blue-600 h-8 rounded-md" >Submit</button>
     </form>
   </>
 
@@ -170,7 +237,7 @@ export default function Home({ params }: { params: { id: string } }) {
   //     <div className="ml-40">
   //       {/* For the title of the page and the form */}
   //       <h1 className="text-3xl font-bold">Add a Book</h1>
-  //       <p className="mb-6 text-slate-400 font-extralight">* indicates required</p>
+        // <p className="mb-6 text-slate-400 font-extralight">* indicates required</p>
   //       {errorMessages && <div><p>{errorMessages}</p></div>}
   //       <form onSubmit={formik.handleSubmit} className="mb-20" encType="multipart/form-data">
   //         <div className="mb-4">
@@ -281,19 +348,19 @@ export default function Home({ params }: { params: { id: string } }) {
   //             onChange={formik.handleChange}
   //           />
   //         </div> */}
-  //         <div className="mb-4">
-  //           <label htmlFor="coverPhoto" className="font-medium text-md block">Cover Photo</label>
-  //           <p className="mb-2 text-slate-400 font-extralight">Must be a jpg, jpeg, or png file</p>
-  //           {/* {formik.touched.coverPhoto && formik.errors.coverPhoto ? <p className="text-red-500">{formik.errors.coverPhoto}</p> : ''} */}
-  //           <input
-  //             className="rounded-md"
-  //             type="file"
-  //             name="coverPhoto"
-  //             onChange={(e) => {
-  //               formik.setFieldValue("coverPhoto", e.currentTarget.files[0])
-  //             }}
-  //           />
-  //         </div>
+          // <div className="mb-4">
+          //   <label htmlFor="coverPhoto" className="font-medium text-md block">Cover Photo</label>
+          //   <p className="mb-2 text-slate-400 font-extralight">Must be a jpg, jpeg, or png file</p>
+          //   {/* {formik.touched.coverPhoto && formik.errors.coverPhoto ? <p className="text-red-500">{formik.errors.coverPhoto}</p> : ''} */}
+          //   <input
+          //     className="rounded-md"
+          //     type="file"
+          //     name="coverPhoto"
+          //     onChange={(e) => {
+          //       formik.setFieldValue("coverPhoto", e.currentTarget.files[0])
+          //     }}
+          //   />
+          // </div>
   //         <div className="mb-4">
   //           <h2 className="mb-2 text-xl font-semibold">Author Information</h2>
   //           <div className="mb-4">
