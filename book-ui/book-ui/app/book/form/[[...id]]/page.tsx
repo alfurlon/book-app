@@ -2,7 +2,6 @@
 
 import bookPhoto from "@/public/imgs/bookshelf-bg.jpg"
 import Image from "next/image"
-import { useFormik, Formik, FormikHelpers, FormikProps, Form, Field, FieldProps, ErrorMessage } from "formik"
 import * as Yup from "yup"
 import { useRouter } from "next/navigation"
 import axios from "axios"
@@ -10,7 +9,6 @@ import { capitalizeEachWord } from '@/utils/helperMethods'
 import { useAuth } from "@/context/AuthContext"
 import { useState, useEffect } from "react"
 import axiosInstance from "@/lib/axios"
-import { Book, emptyBook } from "@/types/Book"
 
 interface BookFormValues {
   title: string
