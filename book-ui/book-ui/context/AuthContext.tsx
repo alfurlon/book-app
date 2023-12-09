@@ -2,7 +2,6 @@
 
 import { useContext, createContext, useState, useEffect, ReactNode } from "react"
 import { User, emptyUser } from "@/types/User"
-import axios from "axios"
 import { useRouter } from "next/navigation"
 
 interface AuthContextType {

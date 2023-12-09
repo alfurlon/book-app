@@ -7,7 +7,6 @@ import { FaUserSlash } from "react-icons/fa";
 import Link from 'next/link'
 import { useAuth } from "@/context/AuthContext";
 import { useState, Fragment } from "react";
-import classNames from "classnames";
 import { Dialog, Transition } from '@headlessui/react'
 
 
