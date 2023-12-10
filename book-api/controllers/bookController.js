@@ -288,9 +288,9 @@ function sanitizeData(data) {
     }
 
     // haveRead: data.haveRead; convert from string to boolean. throw error if it can't work
-    if (data.haveRead) {
-        data.haveRead = data.haveRead === 'true' ? true : false
-    }
+    // if (data.haveRead) {
+    //     data.haveRead = data.haveRead === 'true' ? true : false
+    // }
 
     // publishedDate: The date is coming in as a string. Need to convert it to a date
     if (data.publishedDate) {
