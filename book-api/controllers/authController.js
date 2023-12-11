@@ -4,7 +4,7 @@ const catchAsync = require('./../util/catchAsync');
 const AppError = require('./../util/appError');
 const jwt = require('jsonwebtoken');
 
-// !! Eventually add haveRead and yearRead to this
+
 const signToken = (id, name, email, bookList) => {
     return jwt.sign({ id, name, email, bookList }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN
@@ -97,12 +97,6 @@ exports.protect = catchAsync(async (req, res, next) => {
     if (!freshUser) {
         return next(new AppError('That user does not exist', 401));
     }
-
-    // console.log(`Fresh User: ${JSON.stringify(freshUser, null, 2)}`)
-    // 4. Check if user changed passwords after the token was issued
-    // if (freshUser.changedPasswordAfter(decoded.iat)) {
-    //     return next(new AppError('Password was recently changed. Please login again', 401));
-    // }
 
     // Grant access to route
     req.user = freshUser;

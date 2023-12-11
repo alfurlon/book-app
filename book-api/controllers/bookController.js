@@ -130,7 +130,6 @@ exports.createBook = catchAsync(async (req, res, next) => {
     // Get user.
     // If user doesn't exist return an error and do not save book
     const existingUser = await User.findById(req.headers.id)
-    // console.log(existingUser)
 
     if (!existingUser) {
         return next(new AppError('No user to save book to.', 400))
@@ -140,8 +139,6 @@ exports.createBook = catchAsync(async (req, res, next) => {
         firstName: req.body.authorFirstName,
         lastName: req.body.authorLastName
         };
-
-    //!! Need to handle the case of photos being larger than 100MB
 
     // Checking if the author exists
     // If they do, assign existing authors id to authorId variable
@@ -163,8 +160,6 @@ exports.createBook = catchAsync(async (req, res, next) => {
         authorId = newAuthor._id;
     }
 
-    // !! Edit the user object haveRead and yearRead
-
     req.body = sanitizeData(req.body)
     
     // Create and save new book
@@ -182,19 +177,11 @@ exports.createBook = catchAsync(async (req, res, next) => {
     // !! had an error just below this but it already saved the book
     const newBook = await book.save();
 
-    // !! could I set a header to be the userId?
-
     // Add book to user creating the book
     // The user signed in should be at req.user
     // !! Turning off for right now. Need a way to better handle the error if there is no bookList
     existingUser.bookList.push(newBook._id)
     // console.log('booklist afer push', existingUser)
-
-    // Handle haveRead and yearRead
-    // The bookId as a string will be the key, and then haveRead/yearRead will be the value
-    // !! Need to test these after I set up the user login
-    // req.user.haveRead.set(newBook._id.toString(), req.body.haveRead)
-    // req.user.yearRead.set(newBook._id.toString(), req.body.yearRead)
 
     // update the user
     const updatedUser = await User.findByIdAndUpdate(existingUser._id, existingUser)
@@ -215,28 +202,13 @@ exports.createBook = catchAsync(async (req, res, next) => {
 })
 
 exports.updateBook = async (req, res, next) => {
-    // !! Logic for updating photo if I ever want to add that in
-    // Check if the photo is being updated
-    // If so get the url for it
-    // const photo = req.files.photo;
-    // let result;
-    // if (photo) {
-    //     result = await cloudinary.uploader.upload(file.tempFilePath);
-    // }
-
-    // Check if updating the author
-    // Skip this for now
-
-    // !! Edit the user object haveRead and yearRead
 
     req.body = sanitizeData(req.body)
 
     // Update the book
     const book = new Book({
         title: req.body.title,
-        // author: authorId,
         summary: req.body.summary,
-        //coverPhoto: result.secure_url,
         publishedDate: req.body.publishedDate,
         genre: req.body.genre,
         pages: req.body.pages
@@ -287,17 +259,10 @@ function sanitizeData(data) {
         data.genre = acceptableGenres.includes(data.genre.toLowerCase()) ? data.genre : ''
     }
 
-    // haveRead: data.haveRead; convert from string to boolean. throw error if it can't work
-    // if (data.haveRead) {
-    //     data.haveRead = data.haveRead === 'true' ? true : false
-    // }
-
-    // publishedDate: The date is coming in as a string. Need to convert it to a date
+    // publishedDate: Check date
     if (data.publishedDate) {
         console.log(data.publishedDate)
     }
-
-    // !! yearRead should not be in the future
 
     return data
 }

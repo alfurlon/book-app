@@ -14,8 +14,6 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
     })
 })
 
-// !! may need to remove admin privileges here
-// !! because I need this call to populate user on front end
 exports.getUserById = catchAsync(async (req, res, next) => {
     const user = await User.findById(req.params.id);
 
@@ -50,6 +48,7 @@ exports.deleteUser = catchAsync(async (req, res, next) => {
 // This should only be used to add books that are already created
 // to the user. 
 // If a new book is created the createBook route will be used instead
+// !! Delete?
 exports.addBookToUser = catchAsync(async (req, res, next) => {
 
     const book = await Book.findOne({ title: req.body.bookTitle })

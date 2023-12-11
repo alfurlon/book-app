@@ -32,9 +32,6 @@ const userSchema = new mongoose.Schema({
             message: "passwords are not the same"
         }
     },
-    // passwordChangedAt: {
-    //     type: Date
-    // },
     role: {
         type: String,
         enum: ['user', 'admin'],
@@ -48,14 +45,6 @@ const userSchema = new mongoose.Schema({
     bookList: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Book'
-    },
-    haveRead: {
-        type: Map,
-        of: Boolean
-    },
-    yearRead: {
-        type: Map,
-        of: Number
     }
 })
 
@@ -74,19 +63,6 @@ userSchema.pre('save', async function(next) {
 userSchema.methods.correctPassword = async function(candidatePassword, userPassword) {
     return await bcrypt.compare(candidatePassword, userPassword)
 }
-
-// This is just an example of what password reset protection could look like
-// userSchema.methods.changedPasswordAfter = async function(JWTTimestamp) {
-//     if (this.passwordChangedAt) {
-//         // convert passwordChangedAt to milliseconds
-//         const changedTimestamp = parseInt(this.passwordChangedAt.getTime() / 1000, 10)
-//         console.log(changedTimestamp, JWTTimestamp)
-        
-//         return JWTTimestamp < changedTimestamp
-//     }
-
-//     return false;
-// }
 
 // Makes sure inactive users don't show up in queries
 userSchema.pre(/^find/, function(next) {

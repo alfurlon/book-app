@@ -1,11 +1,8 @@
 const express = require('express');
-// const multerMiddleware = require('./../middleware/multerMiddleware');
 const { uploadCloudinary } = require('./../middleware/multerCloudinaryMiddleware');
 const bookController = require('./../controllers/bookController');
 const authController = require('../controllers/authController')
 const router = express.Router();
-
-// const uploadMiddleware = multerMiddleware();
 
 router
     .route('/')
