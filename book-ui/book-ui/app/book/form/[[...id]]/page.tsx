@@ -1,6 +1,5 @@
 'use client'
 
-import bookPhoto from "@/public/imgs/bookshelf-bg.jpg"
 import Image from "next/image"
 import * as Yup from "yup"
 import { useRouter } from "next/navigation"

@@ -19,14 +19,6 @@ export default function BookDetail({ params }: { params: { slug: string } }) {
             .catch(err => console.log(err))
     }, []);
 
-    // Handle the date to display properly
-    // Preferably this is temporary
-    // let modifiedPublishedDate
-    // if (book.publishedDate) {
-    //     book.publishedDate = book.publishedDate.slice(0, 10)
-    //     modifiedPublishedDate = new Date(parseInt(book.publishedDate.slice(0, 4)), parseInt(book.publishedDate.slice(5, 7)) - 1, parseInt(book.publishedDate.slice(9,10)))
-    // }
-
     return (
         <div className="flex w-3/4 justify-center ml-20">
             {/* <div>{JSON.stringify(book, null, 2)}</div> */}
@@ -53,11 +45,9 @@ export default function BookDetail({ params }: { params: { slug: string } }) {
                     </div>
                 </div>
                 <div>
-                    {/* contains summary, genres, have read, and year read */}
+                    {/* contains summary, and genre */}
                     <p className="mb-6 text-xl"><span className="font-medium">Summary: </span> {book.summary ? book.summary : 'Edit to add'}</p>
                     <h3 className="mb-6 text-xl"><span className="font-medium">Genre: </span>{book.genre ? book.genre : 'Edit to add'}</h3>
-                    {/* <h3 className="mb-6 text-xl"><span className="font-medium">Have Read: </span>Add to user and then get from user. Get the user from the context</h3>
-                    <h3 className="mb-6 text-xl"><span className="font-medium">Year Read: </span>Add to user and then get from user. Get the user from the context</h3> */}
                     <h3 className="mt-6 text-xl"><span className="font-medium">Published Date: </span>{book.publishedDate ? book.publishedDate : 'Edit to add'}</h3>
                     <h3 className="mt-6 text-xl"><span className="font-medium">Pages: </span>{(book.pages || book.pages != 0) ? book.pages : 'Edit to add'}</h3>
                 </div>

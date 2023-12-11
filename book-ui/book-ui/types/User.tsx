@@ -9,8 +9,6 @@ export interface User {
     // active: boolean,
     // !! This string[] may cause a problem with the backend
     bookList?: string[],
-    haveRead?: Map<string, boolean>,
-    yearRead?: Map<string, number>
     __v?: number
 }
 
@@ -23,6 +21,4 @@ export const emptyUser = {
     // role: '',
     // active: true,
     bookList: [],
-    haveRead: undefined,
-    yearRead: undefined
 }

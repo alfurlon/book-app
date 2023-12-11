@@ -14,7 +14,6 @@ export default function Home() {
   useEffect(() => {
     // Get book list from users own booklist
     // Right now going to hard code 6552c60d60a3eb7c0c10e2b6
-    // in the future user the actual logged in user id
     if (user?.id) {
       axios.get(`http://localhost:3001/api/v1/books/user/${user?.id}`)
       .then(response => {
