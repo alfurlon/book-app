@@ -150,6 +150,7 @@ export default function Home({ params }: { params: { id: string } }) {
   return <>
     <h1>{isEditingBook ? 'Update Book' : 'Add Book'}</h1>
     <p className="mb-6 text-slate-400 font-extralight">* indicates required</p>
+    {errorMessages && <div><p>{errorMessages}</p></div>}
     <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="title" className="block font-medium text-md mb-2" >Title*</label>
