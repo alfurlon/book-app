@@ -22,10 +22,10 @@ export default function NavBar() {
             {/* {JSON.stringify(user, null, 2)} */}
             <div className="flex justify-between items-center mr-20">
                 <div className="mr-10">
-                    <Link href="/book/form" className="hover:text-hover-text-color text-2xl"><BsPlusSquareFill /></Link>
+                    {user?.id && <Link href="/book/form" className="hover:text-hover-text-color text-2xl"><BsPlusSquareFill /></Link>}
                 </div>
                 <div className="mr-10">
-                    <Link href="/book/gallery" className="hover:text-hover-text-color text-2xl"><FaBookOpen /></Link>
+                    {user?.id && <Link href='/book/gallery' className="hover:text-hover-text-color text-2xl"><FaBookOpen /></Link>}
                 </div>
                 {!user?.id
                     ? 

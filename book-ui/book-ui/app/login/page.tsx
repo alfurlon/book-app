@@ -100,7 +100,7 @@ export default function Home() {
         {isNewUser
           &&
           <div>
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name" className="block">Name</label>
             {formik.touched.name && formik.errors.name ? <p className="text-red-500">{formik.errors.name}</p> : ''}
             <input
               type="text"
@@ -111,7 +111,7 @@ export default function Home() {
             />
           </div>}
 
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email" className="block">Email</label>
         {formik.touched.email && formik.errors.email ? <p className="text-red-500">{formik.errors.email}</p> : ''}
         <input
           type="email"
@@ -120,7 +120,7 @@ export default function Home() {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
-        <label htmlFor="password">Password</label>
+        <label htmlFor="password" className="block">Password</label>
         {formik.touched.password && formik.errors.password ? <p className="text-red-500">{formik.errors.password}</p> : ''}
         <input
           type="text"
@@ -132,7 +132,7 @@ export default function Home() {
         {isNewUser
           &&
           <div>
-            <label htmlFor="passwordConfirm">Password Confirm</label>
+            <label htmlFor="passwordConfirm" className="block">Password Confirm</label>
             {formik.touched.passwordConfirm && formik.errors.passwordConfirm ? <p className="text-red-500">{formik.errors.passwordConfirm}</p> : ''}
             <input
               type="text"
@@ -144,9 +144,10 @@ export default function Home() {
           </div>}
           <button
             type="submit"
+            className="text-md font-medium text-white bg-blue-600 h-8 rounded-md w-20 text-center block"
           >{isNewUser ? 'Signup' : 'Login'}</button>
       </form>
-      <a onClick={handleClick} className="block">Not a new user? Login here!</a>
+      <p>{isNewUser ? <span>Not a new user? <a onClick={handleClick} className="hover:cursor-pointer text-submit-btn-color" >Login here!</a></span> : <span>Not a current user? <a onClick={handleClick} className="hover:cursor-pointer text-submit-btn-color" >Signup here!</a></span>}</p>
     </main>
   )
   }

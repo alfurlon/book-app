@@ -224,7 +224,7 @@ export default function Home({ params }: { params: { id: string } }) {
         <label htmlFor="authorLastName" className="block font-medium text-md mb-2" >Author Last Name*</label>
         <input type="text" name="authorLastName" id="authorLastName" className="rounded-md mb-4" value={existingBook.authorLastName} onChange={handleChange} />
       </div>
-      <button type="submit" className="text-md font-medium text-white w-24 bg-blue-600 h-8 rounded-md" >Submit</button>
+      <button type="submit" className="text-md font-medium text-white w-24 bg-blue-600 h-8 rounded-md text-center" >Submit</button>
     </form>
   </>
 }
