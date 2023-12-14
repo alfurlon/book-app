@@ -12,8 +12,3 @@ body {
   color: #3F403F;
   background-color: #E6E8E6;
 }
-
-main {
-  background-image: url('../public/imgs/bookshelf-bg.jpg');
-  background-size: cover;
-}

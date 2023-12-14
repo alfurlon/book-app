@@ -18,7 +18,7 @@ export default function BookGalleryBook({ book }: BookProps) {
             className="mb-10 flex flex-col"
         >
             <Image
-                src={bookPhoto}
+                src={book.coverPhoto ? book.coverPhoto : bookPhoto}
                 width={300}
                 height={300}
                 alt={`Cover photo for ${book.title}`}
