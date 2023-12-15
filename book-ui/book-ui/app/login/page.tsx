@@ -6,6 +6,8 @@ import * as Yup from "yup"
 import { useRouter } from "next/navigation"
 import axios from "axios"
 import { useAuth } from "@/context/AuthContext"
+import Image from "next/image"
+import bookshelfbg from '@/public/imgs/bookshelf-bg.jpg'
 
 export default function Home() {
   const [isNewUser, setIsNewUser] = useState<boolean>(true)
@@ -94,60 +96,84 @@ export default function Home() {
 
   return (
     <main className="h-screen bg-none">
-      <h1>Signup</h1>
-      {errorMessages && <div><p>{errorMessages}</p></div>}
-      <form onSubmit={formik.handleSubmit}>
-        {isNewUser
-          &&
-          <div>
-            <label htmlFor="name" className="block">Name</label>
-            {formik.touched.name && formik.errors.name ? <p className="text-red-500">{formik.errors.name}</p> : ''}
-            <input
-              type="text"
-              name="name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-          </div>}
-
-        <label htmlFor="email" className="block">Email</label>
-        {formik.touched.email && formik.errors.email ? <p className="text-red-500">{formik.errors.email}</p> : ''}
-        <input
-          type="email"
-          name="email"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-        />
-        <label htmlFor="password" className="block">Password</label>
-        {formik.touched.password && formik.errors.password ? <p className="text-red-500">{formik.errors.password}</p> : ''}
-        <input
-          type="text"
-          name="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-        />
-        {isNewUser
-          &&
-          <div>
-            <label htmlFor="passwordConfirm" className="block">Password Confirm</label>
-            {formik.touched.passwordConfirm && formik.errors.passwordConfirm ? <p className="text-red-500">{formik.errors.passwordConfirm}</p> : ''}
-            <input
-              type="text"
-              name="passwordConfirm"
-              value={formik.values.passwordConfirm}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-          </div>}
-          <button
-            type="submit"
-            className="text-md font-medium text-white bg-blue-600 h-8 rounded-md w-20 text-center block"
-          >{isNewUser ? 'Signup' : 'Login'}</button>
-      </form>
-      <p>{isNewUser ? <span>Not a new user? <a onClick={handleClick} className="hover:cursor-pointer text-submit-btn-color" >Login here!</a></span> : <span>Not a current user? <a onClick={handleClick} className="hover:cursor-pointer text-submit-btn-color" >Signup here!</a></span>}</p>
+      <div className="flex justify-center mt-24 rounded-lg h-2/3 mx-32">
+        <div className="">
+          <Image
+            src={bookshelfbg}
+            alt={`Background image of a bookshelf`}
+            height={1500}
+            width={1500}
+            className="h-full"
+          />
+        </div>
+        <div className="w-full bg-slate-50 pl-48 pt-12 h-full">
+          <h1 className="font-bold pb-4 text-3xl">Welcome Back!</h1>
+          {errorMessages && <div><p>{errorMessages}</p></div>}
+          <form onSubmit={formik.handleSubmit}>
+            {isNewUser
+              &&
+              <div className="pb-4">
+                <label htmlFor="name" className="block font-semibold pb-2">Name</label>
+                {formik.touched.name && formik.errors.name ? <p className="text-red-500">{formik.errors.name}</p> : ''}
+                <input
+                  type="text"
+                  name="name"
+                  className="rounded-md"
+                  placeholder="Enter your name"
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>}
+            <div className="pb-4">
+              <label htmlFor="email" className="block font-semibold pb-2">Email</label>
+              {formik.touched.email && formik.errors.email ? <p className="text-red-500">{formik.errors.email}</p> : ''}
+              <input
+                type="email"
+                name="email"
+                className="rounded-md"
+                placeholder="Enter your email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+            </div>
+            <div className="pb-4">
+              <label htmlFor="password" className="block font-semibold pb-2">Password</label>
+              {formik.touched.password && formik.errors.password ? <p className="text-red-500">{formik.errors.password}</p> : ''}
+              <input
+                type="text"
+                name="password"
+                className="rounded-md"
+                placeholder="Enter your password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+            </div>
+            {isNewUser
+              &&
+              <div className="pb-4">
+                <label htmlFor="passwordConfirm" className="block font-semibold pb-2">Password Confirm</label>
+                {formik.touched.passwordConfirm && formik.errors.passwordConfirm ? <p className="text-red-500">{formik.errors.passwordConfirm}</p> : ''}
+                <input
+                  type="text"
+                  name="passwordConfirm"
+                  className="rounded-md"
+                  placeholder="Enter password again"
+                  value={formik.values.passwordConfirm}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>}
+              <button
+                type="submit"
+                className="text-md font-medium text-white bg-blue-600 rounded-md text-center block mb-4 px-4 py-2"
+              >{isNewUser ? 'Sign Up' : 'Login'}</button>
+          </form>
+          <p>{isNewUser ? <span>Not a new user? <a onClick={handleClick} className="hover:cursor-pointer text-submit-btn-color underline" >Login here!</a></span> : <span>Not a current user? <a onClick={handleClick} className="hover:cursor-pointer text-submit-btn-color underline" >Sign up here!</a></span>}</p>
+        </div>
+      </div>
     </main>
   )
   }

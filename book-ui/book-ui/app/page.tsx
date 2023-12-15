@@ -33,7 +33,7 @@ export default function Home() {
               The Virtual Bookshelf
             </span>
           </h1>
-          <div className=' text-white bg-blue-600 rounded-md text-center h-12 w-28 pt-2 mt-8'>
+          <div className='text-white bg-blue-600 rounded-md text-center mt-8 py-2 w-28'>
             <Link href="/login"><span className='text-lg font-semibold'>Signup</span></Link>
           </div>
         </div>
