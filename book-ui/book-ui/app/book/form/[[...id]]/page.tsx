@@ -152,79 +152,85 @@ export default function Home({ params }: { params: { id: string } }) {
     <p className="mb-6 text-slate-400 font-extralight">* indicates required</p>
     {errorMessages && <div><p>{errorMessages}</p></div>}
     <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="title" className="block font-medium text-md mb-2" >Title*</label>
-        <input type="text" name="title" id="title" className="rounded-md mb-4" value={existingBook.title} onChange={handleChange} />
-      </div>
-      <div>
-        <label htmlFor="publishedDate" className="block font-medium text-md mb-2" >Published Date</label>
-        <input type="date" name="publishedDate" id="publishedDate" className="rounded-md mb-4" value={existingBook.publishedDate} onChange={handleChange} />
-      </div>
-      <div>
-        <label htmlFor="summary" className="block font-medium text-md mb-2" >Summary</label>
-        <textarea name="summary" id="summary" className="rounded-md mb-4" value={existingBook.summary} onChange={handleChange} cols={20} rows={5} />
-      </div>
-      <div>
-        <label htmlFor="genre" className="block font-medium text-md mb-2" >Genre</label>
-        <select name="genre" id="genre" className="rounded-md mb-4" value={existingBook.genre} onChange={handleChange}>
-          <option value=""></option>
-          <option value="adventure">Adventure</option>
-          <option value="apocalyptic">Apocalyptic</option>
-          <option value="art">Art</option>
-          <option value="autobiography">Autobiography</option>
-          <option value="biography">Biography</option>
-          <option value="business">Business</option>
-          <option value="childrens fiction">Childrens Fiction</option>
-          <option value="cooking">Cooking</option>
-          <option value="education">Education</option>
-          <option value="fantasy">Fantasy</option>
-          <option value="health">Health</option>
-          <option value="history">History</option>
-          <option value="historical fiction">Historical Fiction</option>
-          <option value="hobby">Hobby</option>
-          <option value="horror">Horror</option>
-          <option value="humor">Humor</option>
-          <option value="law">Law</option>
-          <option value="lgbtq">LGBTQ</option>
-          <option value="memoir">Memoir</option>
-          <option value="mystery">Mystery</option>
-          <option value="philosophy">Philosophy</option>
-          <option value="photography">Photography</option>
-          <option value="politics">Politics</option>
-          <option value="relationships">Relationships</option>
-          <option value="religion">Religion</option>
-          <option value="romance">Romance</option>
-          <option value="science fiction">Science Fiction</option>
-          <option value="self-help">Self-Help</option>
-          <option value="thriller">Thriller</option>
-          <option value="travel">Travel</option>
-          <option value="true crime">True Crime</option>
-          <option value="young adult">Young Adult</option>
-        </select>
-      </div>
-      <div>
-        <label htmlFor="pages" className="block font-medium text-md mb-2" >Pages</label>
-        <input type="number" name="pages" id="pages" className="rounded-md mb-4" value={existingBook.pages} onChange={handleChange} />
-      </div>
-      <div className="mb-4">
-            <label htmlFor="coverPhoto" className="font-medium text-md block">Cover Photo*</label>
-            <p className="mb-2 text-slate-400 font-extralight">Must be a jpg, jpeg, or png file</p>
-            <input
-              className="rounded-md mb-4"
-              type="file"
-              name="coverPhoto"
-              onChange={handleCoverPhotoChange}
-            />
+      <div className="flex justify-center w-full">
+        <div>
+          <div>
+            <label htmlFor="title" className="block font-medium text-md mb-2" >Title*</label>
+            <input type="text" name="title" id="title" className="rounded-md mb-4 w-full" value={existingBook.title} onChange={handleChange} required />
           </div>
-      <div>
-        <label htmlFor="authorFirstName" className="block font-medium text-md mb-2" >Author First Name*</label>
-        <input type="text" name="authorFirstName" id="authorFirstName" className="rounded-md mb-4" value={existingBook.authorFirstName} onChange={handleChange} />
+          <div>
+            <label htmlFor="publishedDate" className="block font-medium text-md mb-2" >Published Date</label>
+            <input type="date" name="publishedDate" id="publishedDate" className="rounded-md mb-4" value={existingBook.publishedDate} onChange={handleChange} />
+          </div>
+          <div>
+            <label htmlFor="summary" className="block font-medium text-md mb-2" >Summary</label>
+            <textarea name="summary" id="summary" className="rounded-md mb-4" value={existingBook.summary} onChange={handleChange} cols={20} rows={2} />
+          </div>
+          <div>
+            <label htmlFor="genre" className="block font-medium text-md mb-2" >Genre</label>
+            <select name="genre" id="genre" className="rounded-md mb-4 w-full" value={existingBook.genre} onChange={handleChange}>
+              <option value=""></option>
+              <option value="adventure">Adventure</option>
+              <option value="apocalyptic">Apocalyptic</option>
+              <option value="art">Art</option>
+              <option value="autobiography">Autobiography</option>
+              <option value="biography">Biography</option>
+              <option value="business">Business</option>
+              <option value="childrens fiction">Childrens Fiction</option>
+              <option value="cooking">Cooking</option>
+              <option value="education">Education</option>
+              <option value="fantasy">Fantasy</option>
+              <option value="health">Health</option>
+              <option value="history">History</option>
+              <option value="historical fiction">Historical Fiction</option>
+              <option value="hobby">Hobby</option>
+              <option value="horror">Horror</option>
+              <option value="humor">Humor</option>
+              <option value="law">Law</option>
+              <option value="lgbtq">LGBTQ</option>
+              <option value="memoir">Memoir</option>
+              <option value="mystery">Mystery</option>
+              <option value="philosophy">Philosophy</option>
+              <option value="photography">Photography</option>
+              <option value="politics">Politics</option>
+              <option value="relationships">Relationships</option>
+              <option value="religion">Religion</option>
+              <option value="romance">Romance</option>
+              <option value="science fiction">Science Fiction</option>
+              <option value="self-help">Self-Help</option>
+              <option value="thriller">Thriller</option>
+              <option value="travel">Travel</option>
+              <option value="true crime">True Crime</option>
+              <option value="young adult">Young Adult</option>
+            </select>
+          </div>
+        </div>
+        <div className="flex flex-col">
+          <div>
+            <label htmlFor="pages" className="block font-medium text-md mb-2" >Pages</label>
+            <input type="number" name="pages" id="pages" className="rounded-md mb-6 w-full" value={existingBook.pages} onChange={handleChange} />
+          </div>
+          <div className="mb-6">
+                <label htmlFor="coverPhoto" className="font-medium text-md block">Cover Photo*</label>
+                <p className="mb-2 text-slate-400 font-extralight">Must be a jpg, jpeg, or png file</p>
+                <input
+                  className="rounded-md mb-4"
+                  type="file"
+                  name="coverPhoto"
+                  onChange={handleCoverPhotoChange}
+                />
+              </div>
+          <div>
+            <label htmlFor="authorFirstName" className="block font-medium text-md mb-2" >Author First Name*</label>
+            <input type="text" name="authorFirstName" id="authorFirstName" className="rounded-md mb-4 w-full" value={existingBook.authorFirstName} onChange={handleChange} required />
+          </div>
+          <div className="pt-1">
+            <label htmlFor="authorLastName" className="block font-medium text-md mb-2" >Author Last Name*</label>
+            <input type="text" name="authorLastName" id="authorLastName" className="rounded-md mb-4 w-full" value={existingBook.authorLastName} onChange={handleChange} required />
+          </div>
+          <button type="submit" className="text-md font-medium text-white w-24 bg-blue-600 h-8 rounded-md text-center self-end" >Submit</button>
+        </div>
       </div>
-      <div>
-        <label htmlFor="authorLastName" className="block font-medium text-md mb-2" >Author Last Name*</label>
-        <input type="text" name="authorLastName" id="authorLastName" className="rounded-md mb-4" value={existingBook.authorLastName} onChange={handleChange} />
-      </div>
-      <button type="submit" className="text-md font-medium text-white w-24 bg-blue-600 h-8 rounded-md text-center" >Submit</button>
     </form>
   </>
 }
