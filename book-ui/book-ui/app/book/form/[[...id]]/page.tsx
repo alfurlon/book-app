@@ -148,7 +148,7 @@ export default function Home({ params }: { params: { id: string } }) {
   }
 
   return <>
-    <h1>{isEditingBook ? 'Update Book' : 'Add Book'}</h1>
+    <h1 className="font-bold text-3xl">{isEditingBook ? 'Update Your Book' : 'Add a Book'}</h1>
     <p className="mb-6 text-slate-400 font-extralight">* indicates required</p>
     {errorMessages && <div><p>{errorMessages}</p></div>}
     <form onSubmit={handleSubmit}>

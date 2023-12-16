@@ -142,7 +142,7 @@ export default function Home() {
               <label htmlFor="password" className="block font-semibold pb-2">Password</label>
               {formik.touched.password && formik.errors.password ? <p className="text-red-500">{formik.errors.password}</p> : ''}
               <input
-                type="text"
+                type="password"
                 name="password"
                 className="rounded-md"
                 placeholder="Enter your password"
@@ -157,7 +157,7 @@ export default function Home() {
                 <label htmlFor="passwordConfirm" className="block font-semibold pb-2">Password Confirm</label>
                 {formik.touched.passwordConfirm && formik.errors.passwordConfirm ? <p className="text-red-500">{formik.errors.passwordConfirm}</p> : ''}
                 <input
-                  type="text"
+                  type="password"
                   name="passwordConfirm"
                   className="rounded-md"
                   placeholder="Enter password again"
