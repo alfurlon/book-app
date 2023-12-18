@@ -69,7 +69,6 @@ export default function Home() {
           }
         })
           .then(response => {
-            // console.log(response)
             login(response.data.token)
           })
           .catch(error => {
