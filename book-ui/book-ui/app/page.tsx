@@ -19,7 +19,7 @@ export default function Home() {
             <span
               className="block"
             >
-              Revolutionize Your Reading Experience: 
+              Modernize your bookshelf: 
             </span>
             <span
               className="block"
