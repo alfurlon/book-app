@@ -15,25 +15,25 @@ export default function NavBar() {
     const [isOpen, setIsOpen] = useState<boolean>(false)
 
     return (
-        <div className="flex justify-between h-20 items-center mb-10">
-            <div className="ml-20">
-                <Link href="/" className="hover:text-hover-text-color"><h1 className="text-3xl font-bold">The Virtual Bookshelf</h1></Link>
+        <div className="flex justify-between lg:h-20 items-center lg:mb-10">
+            <div className="lg:ml-20 ml-5">
+                <Link href="/" className="hover:text-hover-text-color text-slate-600"><h1 className="lg:text-3xl lg:font-bold">The Virtual Bookshelf</h1></Link>
             </div>
-            <div className="flex justify-between items-center mr-20">
-                <div className="mr-10">
-                    {user?.id && <Link href="/book/form" className="hover:text-hover-text-color text-2xl"><BsPlusSquareFill /></Link>}
+            <div className="flex justify-between items-center lg:mr-20 mr-5 my-3">
+                <div className="lg:mr-10">
+                    {user?.id && <Link href="/book/form" className="hover:text-hover-text-color lg:text-2xl"><BsPlusSquareFill /></Link>}
                 </div>
-                <div className="mr-10">
-                    {user?.id && <Link href='/book/gallery' className="hover:text-hover-text-color text-2xl"><FaBookOpen /></Link>}
+                <div className="lg:mr-10">
+                    {user?.id && <Link href='/book/gallery' className="hover:text-hover-text-color lg:text-2xl"><FaBookOpen /></Link>}
                 </div>
                 {!user?.id
                     ? 
                     <div>
-                        <Link href="/login" className="hover:text-hover-text-color text-2xl"><FaUser /></Link>
+                        <Link href="/login" className="hover:text-hover-text-color lg:text-2xl"><FaUser /></Link>
                     </div>
                     :
                     <div>
-                        <FaUserSlash onClick={() => setIsOpen(true)} className="hover:text-hover-text-color text-2xl" />
+                        <FaUserSlash onClick={() => setIsOpen(true)} className="hover:text-hover-text-color lg:text-2xl" />
                     </div>
                 }
             </div>
