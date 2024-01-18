@@ -15,16 +15,16 @@ export default function BookGalleryBook({ book }: BookProps) {
     return (
         <Link
             href={`/book/${book.slug}`}
-            className="mb-10 flex flex-col"
+            className="lg:mb-10 flex flex-col mb-5"
         >
             <Image
                 src={book.coverPhoto ? book.coverPhoto : bookPhoto}
                 width={300}
                 height={300}
                 alt={`Cover photo for ${book.title}`}
-                className="rounded-md mb-4"
+                className="rounded-md lg:mb-4 mb-2"
             />
-            <h2 className="text-xl text-center mb-2">{book.title}</h2>
+            <h2 className="lg:text-xl text-center lg:mb-2 mb-1 font-medium">{book.title}</h2>
             <p className="text-center">By {book.author.firstName} {book.author.lastName}</p>
         </Link>
     )
