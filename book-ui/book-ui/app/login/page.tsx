@@ -95,8 +95,8 @@ export default function Home() {
 
   return (
     <main className="h-screen bg-none">
-      <div className="flex justify-center mt-24 rounded-lg h-2/3 mx-32">
-        <div className="">
+      <div className="flex justify-center lg:mt-24 rounded-lg lg:h-2/3 lg:mx-32">
+        <div className="hidden">
           <Image
             src={bookshelfbg}
             alt={`Background image of a bookshelf`}
@@ -105,7 +105,7 @@ export default function Home() {
             className="h-full"
           />
         </div>
-        <div className="w-full bg-slate-50 pl-48 pt-12 h-full">
+        <div className="w-full bg-slate-50 lg:pl-48 lg:pt-12 lg:h-full pl-14 py-10">
           <h1 className="font-bold pb-4 text-3xl">Welcome Back!</h1>
           {errorMessages && <div><p>{errorMessages}</p></div>}
           <form onSubmit={formik.handleSubmit}>

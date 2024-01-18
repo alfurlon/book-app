@@ -29,7 +29,7 @@ export default function NavBar() {
                 {!user?.id
                     ? 
                     <div>
-                        <Link href="/login" className="hover:text-hover-text-color lg:text-2xl"><FaUser /></Link>
+                        <Link href="/login" className="hover:text-hover-text-color lg:text-2xl text-lg"><FaUser /></Link>
                     </div>
                     :
                     <div>
