@@ -15,11 +15,11 @@ export default function NavBar() {
     const [isOpen, setIsOpen] = useState<boolean>(false)
 
     return (
-        <div className="flex justify-between lg:h-20 items-center lg:mb-10">
+        <div className="flex justify-between lg:h-20 items-center lg:mb-2">
             <div className="lg:ml-20 ml-5">
                 <Link href="/" className="hover:text-hover-text-color text-slate-600"><h1 className="lg:text-3xl lg:font-bold font-medium">The Virtual Bookshelf</h1></Link>
             </div>
-            <div className="flex justify-between items-center lg:mr-20 mr-5 my-3">
+            <div className="flex justify-between items-center lg:my-0 lg:mr-20 mr-5 my-3">
                 <div className="lg:mr-10 mr-3">
                     {user?.id && <Link href="/book/form" className="hover:text-hover-text-color lg:text-2xl text-lg"><BsPlusSquareFill /></Link>}
                 </div>

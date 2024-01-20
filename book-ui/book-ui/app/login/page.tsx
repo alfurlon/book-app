@@ -96,7 +96,7 @@ export default function Home() {
   return (
     <main className="h-screen bg-none">
       <div className="flex justify-center lg:mt-24 rounded-lg lg:h-2/3 lg:mx-32">
-        <div className="hidden">
+        <div className="hidden lg:block">
           <Image
             src={bookshelfbg}
             alt={`Background image of a bookshelf`}
