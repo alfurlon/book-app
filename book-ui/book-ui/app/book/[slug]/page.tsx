@@ -20,36 +20,36 @@ export default function BookDetail({ params }: { params: { slug: string } }) {
     }, []);
 
     return (
-        <div className="flex w-3/4 justify-center ml-20">
+        <div className="flex lg:flex-row lg:w-3/4 w-screen justify-center lg:ml-20 flex-col mt-5">
             {/* <div>{JSON.stringify(book, null, 2)}</div> */}
-            <div className="mr-40">
+            <div className="lg:mr-40 mx-auto mb-5">
                 {/* Contains photo, published date, and page count */}
                 <Image
                     src={bookPhoto}
                     alt={`Cover Photo for ${book.title}`}
-                    width={800}
-                    height={800}
-                    className="rounded-sm"
+                    // width={800}
+                    // height={800}
+                    className="rounded-sm lg:w-800 lg:h-800 h-250 w-200"
                  />
             </div>
             <div className="w-full">
-                <div className="flex w-full justify-between mb-6">
+                <div className="lg:flex w-full lg:justify-between mb-6">
                     <div>
                         {/* Contains book title and book author */}
-                        <h1 className="text-4xl mb-2 font-bold">{book.title}</h1>
-                        <h2 className="text-2xl font-medium">{`By ${book.author.firstName} ${book.author.lastName}`}</h2>
+                        <h1 className="lg:text-4xl mb-2 lg:font-bold text-center text-2xl font-medium">{book.title}</h1>
+                        <h2 className="lg:text-2xl font-medium text-center text-lg lg:mb-0 mb-3">{`By ${book.author.firstName} ${book.author.lastName}`}</h2>
                     </div>
-                    <div className="w-40 bg-blue-600 h-12 rounded-md flex justify-center">
+                    <div className="lg:w-40 w-28 bg-blue-600 lg:h-12 rounded-md flex justify-center lg:mx-0 mx-auto">
                         {/* contains edit button */}
-                        <Link href={`/book/form/${book._id}`} className="text-xl text-white self-center text-center">Edit Book</Link>
+                        <Link href={`/book/form/${book._id}`} className="lg:text-xl text-white self-center text-center text-lg py-2 lg:py-0">Edit Book</Link>
                     </div>
                 </div>
-                <div>
+                <div className="lg:ml-0 ml-5">
                     {/* contains summary, and genre */}
-                    <p className="mb-6 text-xl"><span className="font-medium">Summary: </span> {book.summary ? book.summary : 'Edit to add'}</p>
-                    <h3 className="mb-6 text-xl"><span className="font-medium">Genre: </span>{book.genre ? book.genre : 'Edit to add'}</h3>
-                    <h3 className="mt-6 text-xl"><span className="font-medium">Published Date: </span>{book.publishedDate ? book.publishedDate : 'Edit to add'}</h3>
-                    <h3 className="mt-6 text-xl"><span className="font-medium">Pages: </span>{(book.pages || book.pages != 0) ? book.pages : 'Edit to add'}</h3>
+                    <p className="lg:mb-6 mb-2"><span className="font-medium lg:text-xl text-lg">Summary: </span> {book.summary ? book.summary : 'Edit to add'}</p>
+                    <h3 className="lg:mb-6 mb-2"><span className="font-medium lg:text-xl text-lg">Genre: </span>{book.genre ? book.genre : 'Edit to add'}</h3>
+                    <h3 className="lg:mt-6 mb-2"><span className="font-medium lg:text-xl text-lg">Published Date: </span>{book.publishedDate ? book.publishedDate : 'Edit to add'}</h3>
+                    <h3 className="lg:mt-6 mb-2"><span className="font-medium lg:text-xl text-lg">Pages: </span>{(book.pages || book.pages != 0) ? book.pages : 'Edit to add'}</h3>
                 </div>
             </div>
         </div>

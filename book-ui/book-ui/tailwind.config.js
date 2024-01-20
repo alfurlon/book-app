@@ -17,6 +17,12 @@ module.exports = {
         'main-text-color': '#3F403F',
         'hover-text-color': '#498C8A',
         'submit-btn-color': '#3772FF'
+      },
+      spacing: {
+        '300': '300px',
+        '200': '200px',
+        '250': '250px',
+        '800': '800px'
       }
     },
   },
