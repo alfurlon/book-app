@@ -8,7 +8,6 @@ import { useAuth } from "@/context/AuthContext";
 export default function Home() {
   const { user } = useAuth()
 
-
   return (
     <main className="h-screen relative" id='header'>
       <div className='absolute -z-10 opacity-75'>
@@ -39,10 +38,10 @@ export default function Home() {
               The Virtual Bookshelf
             </span>
           </h1>
-          <div className='text-white bg-blue-600 rounded-md text-center lg:mr-0 lg:ml-96 lg:mt-8 md:py-2 py-1 w-28 mx-auto mt-5'>
+          <div className='text-white bg-blue-600 rounded-md text-center lg:mr-0 lg:ml-96 lg:mt-8 md:py-2 py-1 lg:w-32 w-28 mx-auto mt-5'>
             {!user?.id
               ? <Link href="/login"><span className='lg:text-lg lg:font-semibold text-md'>Signup</span></Link>
-              : <Link href="/book/gallery"><span className='lg:text-lg lg:font-semibold text-md'>Your Gallery</span></Link> }
+              : <Link href="/book/gallery"><span className='lg:text-lg lg:font-semibold lg:px-2 text-md'>Your Gallery</span></Link> }
             
           </div>
         </div>

@@ -105,7 +105,7 @@ export default function Home() {
             className="h-full"
           />
         </div>
-        <div className="w-full bg-slate-50 lg:pl-48 lg:pt-12 lg:h-full pl-14 py-10">
+        <div className="w-full bg-slate-50 lg:pl-48 lg:pt-12 lg:h-full md:pl-19 pl-14 py-10">
           <h1 className="font-bold pb-4 text-3xl">Welcome Back!</h1>
           {errorMessages && <div><p>{errorMessages}</p></div>}
           <form onSubmit={formik.handleSubmit}>

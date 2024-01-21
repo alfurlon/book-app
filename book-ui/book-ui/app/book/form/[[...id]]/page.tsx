@@ -149,11 +149,11 @@ export default function Home({ params }: { params: { id: string } }) {
 
   return <>
     <div className="grid grid-cols-1 justify-items-center">
-      <h1 className="lg:font-bold lg:text-3xl text-center font-medium text-xl">{isEditingBook ? 'Update Your Book' : 'Add a Book'}</h1>
-      <p className="mb-6 text-slate-400 font-extralight text-center text-xs">* indicates required</p>
+      <h1 className="md:font-bold lg:text-3xl md:text-2xl text-center font-medium text-xl">{isEditingBook ? 'Update Your Book' : 'Add a Book'}</h1>
+      <p className="mb-6 text-slate-400 font-extralight text-center md:text-sm text-xs">* indicates required</p>
       {errorMessages && <div><p>{errorMessages}</p></div>}
       <form onSubmit={handleSubmit}>
-        <div className="flex lg:flex-row flex-col justify-center w-full bg-slate-50 lg:py-12 pt-6 pb-10 px-24 rounded-lg">
+        <div className="flex md:flex-row flex-col justify-center w-full bg-slate-50 lg:py-12 pt-6 pb-10 px-24 rounded-lg">
           <div className="mr-14">
             <div>
               <label htmlFor="title" className="block font-medium text-md mb-2" >Title*</label>
