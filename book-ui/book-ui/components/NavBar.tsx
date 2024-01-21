@@ -16,24 +16,24 @@ export default function NavBar() {
 
     return (
         <div className="flex justify-between lg:h-20 items-center lg:mb-2">
-            <div className="lg:ml-20 ml-5">
-                <Link href="/" className="hover:text-hover-text-color text-slate-600"><h1 className="lg:text-3xl lg:font-bold font-medium">The Virtual Bookshelf</h1></Link>
+            <div className="md:ml-20 ml-5">
+                <Link href="/" className="hover:text-hover-text-color text-slate-600"><h1 className="lg:text-3xl md:text-lg md:font-bold font-medium">The Virtual Bookshelf</h1></Link>
             </div>
             <div className="flex justify-between items-center lg:my-0 lg:mr-20 mr-5 my-3">
-                <div className="lg:mr-10 mr-3">
-                    {user?.id && <Link href="/book/form" className="hover:text-hover-text-color lg:text-2xl text-lg"><BsPlusSquareFill /></Link>}
+                <div className="md:mr-10 mr-3">
+                    {user?.id && <Link href="/book/form" className="hover:text-hover-text-color lg:text-2xl md:text-xl text-lg"><BsPlusSquareFill /></Link>}
                 </div>
-                <div className="lg:mr-10 mr-3">
-                    {user?.id && <Link href='/book/gallery' className="hover:text-hover-text-color lg:text-2xl text-lg"><FaBookOpen /></Link>}
+                <div className="md:mr-10 mr-3">
+                    {user?.id && <Link href='/book/gallery' className="hover:text-hover-text-color lg:text-2xl md:text-xl text-lg"><FaBookOpen /></Link>}
                 </div>
                 {!user?.id
                     ? 
                     <div>
-                        <Link href="/login" className="hover:text-hover-text-color lg:text-2xl text-lg"><FaUser /></Link>
+                        <Link href="/login" className="hover:text-hover-text-color lg:text-2xl md:text-xl text-lg"><FaUser /></Link>
                     </div>
                     :
                     <div>
-                        <FaUserSlash onClick={() => setIsOpen(true)} className="hover:text-hover-text-color lg:text-2xl text-lg" />
+                        <FaUserSlash onClick={() => setIsOpen(true)} className="hover:text-hover-text-color md:text-xl lg:text-2xl text-lg" />
                     </div>
                 }
             </div>
