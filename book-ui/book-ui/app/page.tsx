@@ -18,7 +18,7 @@ export default function Home() {
         />
       </div>
       <div className="flex h-screen w-screen justify-center content-center">
-        <div className='justify-self-center self-center lg:mb-60 md:mb-80 lg:ml-20 mb-56'>
+        <div className='justify-self-center self-center lg:mb-60 md:my-auto lg:ml-20 mb-56'>
           <h1
             className="lg:text-5xl md:font-bold md:text-2xl text-gray-900 leading-tight text-xl font-medium text-center">
             <span

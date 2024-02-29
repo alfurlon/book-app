@@ -34,7 +34,7 @@ export default function Home() {
   return (
     <main className="h-screen bg-none">
       <h1 className="lg:text-3xl md:text-xl text-center lg:mb-5 md:font-bold text-base font-medium mb-3 mt-5">Your Gallery</h1>
-      <div className="grid lg:grid-cols-4 grid-cols-2 gap-2 lg:mx-0 justify-items-center mx-4">
+      <div className="grid xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 gap-2 lg:mx-0 justify-items-center mx-4">
           {/* Need a books gallery page to load a map of books. And then also an individual book page */}
           {books.map(book => {
             return <BookGalleryBook key={book._id} book={book} />

@@ -20,7 +20,7 @@ export default function BookDetail({ params }: { params: { slug: string } }) {
     }, []);
 
     return (
-        <div className="flex md:flex-row lg:w-3/4 w-screen justify-center md:ml-10 flex-col mt-5">
+        <div className="flex md:flex-row xl:w-3/4 lg:w-11/12 w-screen justify-center md:ml-10 flex-col mt-5">
             {/* <div>{JSON.stringify(book, null, 2)}</div> */}
             <div className="lg:mr-24 md:mx-0 mx-auto mb-5">
                 {/* Contains photo, published date, and page count */}
@@ -34,15 +34,15 @@ export default function BookDetail({ params }: { params: { slug: string } }) {
                 <div className="md:flex w-full md:justify-between mb-6">
                     <div>
                         {/* Contains book title and book author */}
-                        <h1 className="lg:text-4xl lg:mb-4 mb-2 md:font-bold text-center text-2xl font-medium lg:text-left lg:ml-0 md:ml-5">{book.title}</h1>
-                        <h2 className="lg:text-2xl lg:ml-0 md:ml-5 md:text-left font-medium text-center text-lg lg:mb-0 mb-3">{`By ${book.author.firstName} ${book.author.lastName}`}</h2>
+                        <h1 className="lg:text-4xl lg:mb-4 mb-2 md:font-bold text-center text-2xl font-medium md:text-left lg:ml-0 xl:w-full lg:w-64 md:w-52 md:ml-7 ">{book.title}</h1>
+                        <h2 className="lg:text-2xl lg:ml-0 md:ml-7 md:text-left font-medium text-center text-lg lg:mb-0 mb-3">{`By ${book.author.firstName} ${book.author.lastName}`}</h2>
                     </div>
-                    <div className="lg:w-40 w-28 bg-blue-600 md:h-12 rounded-md flex justify-center lg:mx-0 mx-auto">
+                    <div className="lg:w-32 w-28 bg-blue-600 md:h-12 rounded-md flex justify-center lg:mx-0 mx-auto">
                         {/* contains edit button */}
                         <Link href={`/book/form/${book._id}`} className="lg:text-xl text-white self-center text-center text-lg py-2 md:py-0">Edit Book</Link>
                     </div>
                 </div>
-                <div className="lg:ml-0 ml-5">
+                <div className="lg:ml-0 ml-5 md:ml-7">
                     {/* contains summary, and genre */}
                     <p className="lg:mb-6 md:mb-4 mb-2"><span className="font-medium lg:text-xl text-lg">Summary: </span> {book.summary ? book.summary : 'Edit to add'}</p>
                     <h3 className="lg:mb-6 md:mb-4 mb-2"><span className="font-medium lg:text-xl text-lg">Genre: </span>{book.genre ? book.genre : 'Edit to add'}</h3>
