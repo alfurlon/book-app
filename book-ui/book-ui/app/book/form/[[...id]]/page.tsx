@@ -39,7 +39,7 @@ export default function Home({ params }: { params: { id: string } }) {
   const [isEditingBook, setIsEditingBook] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  // !! Add the error logic I have in my login/signup page
+  // Add the error logic I have in my login/signup page
 
   useEffect(() => {
     if (params.id) {
@@ -47,7 +47,7 @@ export default function Home({ params }: { params: { id: string } }) {
         .then(response => {
           const bookData = response.data.result.book
           
-          // !! Should conditionally render the form
+          // Should conditionally render the form
           setExistingBook({
             title: bookData.title,
             publishedDate: bookData.publishedDate,
@@ -137,8 +137,6 @@ export default function Home({ params }: { params: { id: string } }) {
             setErrorMessages(error.response.data.message)
         })
     }
-    // console.log('existingBook', JSON.stringify(existingBook, null, 2))
-    // console.log('formData', JSON.stringify(formData, null, 2))
   }
 
   if (isLoading) {

@@ -7,7 +7,7 @@ export interface User {
     // passwordConfirm: string,
     // role: string,
     // active: boolean,
-    // !! This string[] may cause a problem with the backend
+    // This string[] may cause a problem with the backend
     bookList?: string[],
     __v?: number
 }

@@ -6,7 +6,6 @@ import { Book } from "@/types/Book";
 
 interface BookProps {
     book: Book;
-    // I don't know if I need this?
     children?: React.ReactNode;
 }
 

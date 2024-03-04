@@ -12,7 +12,7 @@ const userRouter = require('./routes/userRouter')
 const app = express()
 
 // Enable CORS for all routes
-// !! Update later
+// Update later
 app.use(cors())
 
 // Set security HTTP Headers
@@ -34,7 +34,7 @@ app.use(hpp())
 
 // Limits calls from one IP to 100 per hour (windowms)
 // Could be used to monetize API
-//!! Not turning on during development
+// Not turning on during development
 // const limiter = rateLimit({
 //     max: 100,
 //     windowMs: 60 * 60 * 1000,
